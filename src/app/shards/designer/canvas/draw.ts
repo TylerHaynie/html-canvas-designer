@@ -1,7 +1,9 @@
 import { Size, Point } from './models';
+import { Utils } from './utils';
 
-export class CanvasTools {
+export class Draw {
     canvasContext: CanvasRenderingContext2D;
+    private utils = new Utils();
 
     constructor(canvasContext: CanvasRenderingContext2D) {
         this.canvasContext = canvasContext;
@@ -28,24 +30,37 @@ export class CanvasTools {
     }
     //#endregion
 
-    getDistance(n1: number, n2: number): number {
-        return Math.abs(Math.max(n1, n2) - Math.min(n1, n2));
-    }
-
-    findHalf(x, y) {
-        return ((x + y) / 2);
-    }
-
     //#region Shapes
-    drawRectangleWithSize(point: Point, size: Size, solid: boolean = false, color: string | CanvasGradient | CanvasPattern = this.getRandomColor()): void {
+    drawRectangleWithSize(point: Point, size: Size, solid: boolean = false, color: string | CanvasGradient | CanvasPattern = this.utils.getRandomColor()): void {
         this.drawRectangle(point, <Point>{ x: point.x + size.width, y: point.y + size.height }, solid, color);
     }
 
-    drawPoint(point: Point, size: number = 1, color: string | CanvasGradient | CanvasPattern = this.getRandomColor()): void {
+    drawPoint(point: Point, size: number = 1, color: string | CanvasGradient | CanvasPattern = this.utils.getRandomColor()): void {
+        // shift up half, left half
+
         this.drawRectangleWithSize(point, { height: size, width: size }, true, color);
     }
 
-    drawRectangle(p1: Point, p2: Point, solid: boolean = true, color: string | CanvasGradient | CanvasPattern = this.getRandomColor()): void {
+    drawPointWithText(x, y, size = 1, textEdge = 45) {
+        this.drawPoint({ x, y }, size);
+        this.canvasContext.textAlign = 'right';
+        this.canvasContext.textBaseline = 'bottom';
+
+        let tx = x - 3;
+        let ty = y - 3;
+
+        if (x - textEdge <= 0) {
+            tx += textEdge + size;
+        }
+
+        if (y + textEdge < 0) {
+            ty += textEdge;
+        }
+
+        this.canvasContext.fillText(`(${x}, ${y})`, tx, ty);
+    }
+
+    drawRectangle(p1: Point, p2: Point, solid: boolean = true, color: string | CanvasGradient | CanvasPattern = this.utils.getRandomColor()): void {
 
         this.canvasContext.moveTo(p1.x, p1.y);
         this.canvasContext.beginPath();
@@ -73,6 +88,15 @@ export class CanvasTools {
         }
 
         this.canvasContext.stroke();
+    }
+
+    drawRandomPoint() {
+        let point = <Point>{
+            x: Math.floor((Math.random() * this.canvasContext.canvas.width) + 1),
+            y: Math.floor((Math.random() * this.canvasContext.canvas.width) + 1)
+        };
+
+        this.drawPoint(point);
     }
 
     //#endregion
@@ -135,47 +159,4 @@ export class CanvasTools {
         this.canvasContext.fillText(yText, x - 2.5, height / 2 + 2.5);
     }
 
-    drawPointWithText(x, y, size = 1, textEdge = 45) {
-        this.drawPoint({ x, y }, size);
-        this.canvasContext.textAlign = 'right';
-        this.canvasContext.textBaseline = 'bottom';
-
-        let tx = x - 3;
-        let ty = y - 3;
-
-        if (x - textEdge <= 0) {
-            tx += textEdge + size;
-        }
-
-        if (y + textEdge < 0) {
-            ty += textEdge;
-        }
-
-        this.canvasContext.fillText(`(${x}, ${y})`, tx, ty);
-    }
-
-    //#region Random
-    getRandomColor(): string {
-        let r = 255 * Math.random() | 0,
-            g = 255 * Math.random() | 0,
-            b = 255 * Math.random() | 0;
-        return 'rgb(' + r + ',' + g + ',' + b + ')';
-    }
-
-    getRandomShadeOfGray(): string {
-        let val = 50 * Math.random() | 0;
-        return 'rgb(' + val + ',' + val + ',' + val + ')';
-    }
-
-    drawRandomPoint() {
-        let point = <Point>{
-            x: Math.floor((Math.random() * this.canvasContext.canvas.width) + 1),
-            y: Math.floor((Math.random() * this.canvasContext.canvas.width) + 1)
-        };
-
-        this.drawPoint(point);
-    }
-
-    //#endregion
 }
-

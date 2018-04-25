@@ -1,0 +1,14 @@
+<div class="wrapper">
+    <div class="toolbar">
+        <button>Move</button>
+    </div>
+    <div class="view">
+        <canvas #c id="c" width="600" height="600"></canvas>
+    </div>
+    <div class="toolbox">
+        <button id="Draw Rectangle" [ngClass]="{'selected': currentTool && currentTool.id == 'rectangle' }" (click)="setTool('rectangle')">Draw Rectangle</button>
+    </div>
+    <div class="statusbar">
+        <span *ngIf="pointerLocation">({{pointerLocation.x}}, {{pointerLocation.y}})</span>
+    </div>
+</div>

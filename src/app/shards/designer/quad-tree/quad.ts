@@ -1,4 +1,4 @@
-import { Point } from './models';
+import { Point } from '../canvas/models';
 
 class WithinBoundsResponse {
     canContain = false;

@@ -1,0 +1,53 @@
+/* body {
+    background: #222;
+} */
+
+canvas {
+    /* do not style canvas. It will throw off positions */
+    background: #111;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr;
+    grid-gap: 3px;
+    color: white;
+}
+
+.toolbar {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.view {
+    border: 1px solid greenyellow;
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.toolbox {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.statusbar {
+    color: #535353;
+    font-size: .75em;
+    grid-column: 1;
+    grid-row: 3;
+}
+
+button {
+    padding: 3px 5px;
+    background-color: #535353;
+    color: white;
+    border: 2px solid #252525;
+    /* box-shadow: 0 0 0px 1px #7b7b7b; */
+}
+
+.selected {
+    /* box-shadow: 0 0 0px 1px #7b7b7b inset; */
+    background-color: black;
+    border: 1px solid #2e6da1;
+}
