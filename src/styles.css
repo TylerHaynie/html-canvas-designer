@@ -6,31 +6,6 @@
 }
 
 body {
-    margin: 15px;
+    /* margin: 15px; */
     background-color: #151515;
-}
-
-:root {
-    --box-gap: 4px;
-}
-
-#frame {
-    height: 100%;
-    display: grid;
-    grid-gap: .5em;
-}
-
-#frame>.section {
-    border: 1px double rgb(116, 61, 17);
-    background-color: rgb(0, 0, 0, .30);
-    padding: var(--box-gap);
-    display: grid;
-    grid-gap: var(--box-gap);
-    box-shadow: 0px 0px 1px 1px rgb(102, 50, 7);
-}
-
-#frame>div>.box {
-    background-color: rgb(13, 79, 99);
-    height: 100%;
-    width: 100%;
 }
