@@ -1,4 +1,4 @@
-import { Point, Size } from './models';
+import { Size, Point } from './models';
 
 export class CanvasTools {
     canvasContext: CanvasRenderingContext2D;
@@ -7,49 +7,8 @@ export class CanvasTools {
         this.canvasContext = canvasContext;
     }
 
-    getDistance(n1: number, n2: number): number {
-        return Math.abs(Math.max(n1, n2) - Math.min(n1, n2));
-    }
-
-    findMidPoint(p1: Point, p2: Point): Point {
-        return <Point>{
-            x: (p1.x + p2.x) / 2,
-            y: (p1.y + p2.y) / 2,
-        };
-    }
-
-    findHalf(x, y) {
-        return ((x + y) / 2);
-    }
-
-    //#region Shapes
-    drawRectangle(p1: Point, p2: Point, color: string | CanvasGradient | CanvasPattern = this.getRandomColor()): void {
-        let size = <Size>{
-            height: this.getDistance(p1.y, p2.y),
-            width: this.getDistance(p1.x, p2.x),
-        };
-
-        let midPoint = this.findMidPoint(p1, p2);
-
-        this.drawRectangleWithSize(midPoint, size, color);
-    }
-
-    drawRectangleWithSize(point: Point, size: Size, color: string | CanvasGradient | CanvasPattern = this.getRandomColor()): void {
-        this.canvasContext.beginPath();
-
-        this.canvasContext.rect(point.x, point.y, size.width, size.height);
-        this.canvasContext.strokeStyle = color;
-        this.canvasContext.fillStyle = color;
-        this.canvasContext.fill();
-        this.canvasContext.stroke();
-    }
-
-    drawPoint(point: Point, size: number = 1, color: string | CanvasGradient | CanvasPattern = this.getRandomColor()): void {
-        this.drawRectangleWithSize(point, { height: size, width: size }, color);
-    }
-    //#endregion
-
-    makeGrid(cellSize = 10, color = '#888', drawArrows = true, makeSubGrid = true) {
+    //#region layout
+    makeGridLines(cellSize = 10, color = '#333') {
         // verticle lines
         // start at 0.5 so the lines take up 1 whole pixel and not 2 halves
         for (let x = 0.5; x < this.canvasContext.canvas.width; x += cellSize) {
@@ -58,7 +17,7 @@ export class CanvasTools {
         }
 
         // horizontal
-        // start at 0.5 so the lines take up 1 whole pixel and not 2 half pixels
+        // start at 0.5 so the lines take up 1 whole pixel and not 2 halves
         for (let y = 0.5; y < this.canvasContext.canvas.height; y += cellSize) {
             this.canvasContext.moveTo(0, y);
             this.canvasContext.lineTo(this.canvasContext.canvas.height, y);
@@ -66,16 +25,81 @@ export class CanvasTools {
 
         this.canvasContext.strokeStyle = color;
         this.canvasContext.stroke();
+    }
+    //#endregion
+
+    getDistance(n1: number, n2: number): number {
+        return Math.abs(Math.max(n1, n2) - Math.min(n1, n2));
+    }
+
+    findHalf(x, y) {
+        return ((x + y) / 2);
+    }
+
+    //#region Shapes
+    drawRectangleWithSize(point: Point, size: Size, solid: boolean = false, color: string | CanvasGradient | CanvasPattern = this.getRandomColor()): void {
+        this.drawRectangle(point, <Point>{ x: point.x + size.width, y: point.y + size.height }, solid, color);
+    }
+
+    drawPoint(point: Point, size: number = 1, color: string | CanvasGradient | CanvasPattern = this.getRandomColor()): void {
+        this.drawRectangleWithSize(point, { height: size, width: size }, true, color);
+    }
+
+    drawRectangle(p1: Point, p2: Point, solid: boolean = true, color: string | CanvasGradient | CanvasPattern = this.getRandomColor()): void {
+
+        this.canvasContext.moveTo(p1.x, p1.y);
+        this.canvasContext.beginPath();
+        this.canvasContext.moveTo(p2.x, p2.y);
+        if (solid) {
+            this.canvasContext.fillStyle = color;
+            this.canvasContext.fillRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+        }
+        else {
+            this.canvasContext.strokeRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+        }
+
+        this.canvasContext.stroke();
+    }
+
+    drawLines(points: Point[]) {
+        if (points.length % 2 !== 0) {
+            console.log('I need an even number of points to draw.');
+        }
+
+        for (let i = 0; i < points.length; i++) {
+            this.canvasContext.moveTo(points[i].x, points[i].y);
+            this.canvasContext.lineTo(points[i + 1].x, points[i + 1].y);
+            i++;
+        }
+
+        this.canvasContext.stroke();
+    }
+
+    //#endregion
+
+    drawGrid(cellSize = 10, color = '#252525', drawArrows = true, makeSubGrid = true) {
+        // verticle lines
+        // start at 0.5 so the lines take up 1 whole pixel and not 2 halves
+        let lines: Point[] = [];
+        for (let x = 0.5; x < this.canvasContext.canvas.width; x += cellSize) {
+            lines.push(<Point>{ x: x, y: 0 });
+            lines.push(<Point>{ x: x, y: this.canvasContext.canvas.width });
+        }
+
+        // horizontal
+        // start at 0.5 so the lines take up 1 whole pixel and not 2 half pixels
+        for (let y = 0.5; y < this.canvasContext.canvas.height; y += cellSize) {
+            lines.push(<Point>{ x: 0, y: y });
+            lines.push(<Point>{ x: this.canvasContext.canvas.height, y: y });
+        }
+
+        this.canvasContext.strokeStyle = color;
+        this.drawLines(lines);
 
         if (drawArrows) {
             let h = this.canvasContext.canvas.height / cellSize;
             this.gridArrows(60, 40, this.canvasContext.canvas.width, this.canvasContext.canvas.height, 15);
         }
-
-        // drawing random point
-        let px = Math.floor(Math.random() * this.canvasContext.canvas.width) | 0;
-        let py = Math.floor(Math.random() * this.canvasContext.canvas.height) | 0;
-        this.drawPointWithText(px, py, 3);
     }
 
     gridArrows(x, y, width, height, gapSize, linecolor = '#cee1ff', xText = 'x', yText = 'y') {
@@ -112,8 +136,7 @@ export class CanvasTools {
     }
 
     drawPointWithText(x, y, size = 1, textEdge = 45) {
-        // drawing maximim point
-        this.canvasContext.fillRect(x, y, size, size);
+        this.drawPoint({ x, y }, size);
         this.canvasContext.textAlign = 'right';
         this.canvasContext.textBaseline = 'bottom';
 

@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { CanvasTools } from '../../shared/canvasTools';
+import { Point, Tool, Rectangle } from '../../shared/models';
 
 @Component({
   selector: 'shard-03',
@@ -7,75 +9,83 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 })
 export class Shard03Component implements OnInit {
   @ViewChild('c') canvasRef: ElementRef;
+  @Input() frameRate = 1;
 
-  context;
-  constructor() { }
+  private tools: CanvasTools;
+  private context: CanvasRenderingContext2D;
+  private currentTool: Tool;
+
+  currentPoints: Point[];
+  rectangles: Rectangle[];
+
+  constructor() {
+
+  }
 
   ngOnInit() {
     this.context = (this.canvasRef.nativeElement as HTMLCanvasElement).getContext('2d');
+
+    // this.canvasRef.nativeElement.onclick = (e) => {
+    //   this.onClick(e);
+    // };
+
+    this.canvasRef.nativeElement.onmousedown = (e) => {
+      this.onMouseDown(e);
+    };
+
+    this.tools = new CanvasTools(this.context);
     this.paint();
   }
 
   paint() {
     this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
-
-    // changing font and color from default (inherits from page)
-    this.context.font = 'bold 12px sans-serif';
     this.context.fillStyle = '#fff';
 
-    this.makeGrid(30);
+    this.tools.drawGrid(10);
 
-    // drawing random point
-    let px = Math.floor(Math.random() * this.context.canvas.width) | 0;
-    let py = Math.floor(Math.random() * this.context.canvas.height) | 0;
-    this.drawPoint(px, py, 3);
 
-    setTimeout(() => {
-      requestAnimationFrame(() => this.paint());
-    }, 1000);
+    // setTimeout(() => {
+    //   requestAnimationFrame(() => this.paint());
+    // }, Math.floor(1000 / this.frameRate));
+  }
+
+  onMouseDown(e: MouseEvent) {
+    let p = <Point>{ x: e.clientX, y: e.clientY };
+
+    if (this.currentTool != null) {
+      this.currentTool.useTool(p);
+    }
 
   }
 
-  makeGrid(cellSize = 10, color = '#333') {
-    // verticle lines
-    // start at 0.5 so the lines take up 1 whole pixel and not 2 halves
-    for (let x = 0.5; x < this.context.canvas.width; x += cellSize) {
-      this.context.moveTo(x, 0);
-      this.context.lineTo(x, this.context.canvas.width);
-    }
-
-    // horizontal
-    // start at 0.5 so the lines take up 1 whole pixel and not 2 halves
-    for (let y = 0.5; y < this.context.canvas.height; y += cellSize) {
-      this.context.moveTo(0, y);
-      this.context.lineTo(this.context.canvas.height, y);
-    }
-
-    this.context.strokeStyle = color;
-    this.context.stroke();
+  setTool() {
+    this.currentTool = <Tool>{
+      name: 'Rectangle',
+      id: 'rectangle',
+      useTool: (point: Point) => {
+        this.useTool(point);
+      }
+    };
   }
 
-  drawPoint(x, y, size = 1, textEdge = 45) {
-    // drawing maximim point
-    this.context.fillRect(x, y, size, size);
-    this.context.textAlign = 'right';
-    this.context.textBaseline = 'bottom';
-
-    let tx = x - 3;
-    let ty = y - 3;
-
-    if (x - textEdge <= 0) {
-      tx += textEdge + size;
+  useTool(point: Point) {
+    console.log('using rectangle tool');
+    if (this.currentPoints == null) {
+      this.currentPoints = [];
     }
 
-    if (y + textEdge < 0) {
-      ty += textEdge;
+    this.currentPoints.push(point);
+    this.tools.drawPoint(point, 3);
+
+    console.log(this.currentPoints);
+    if (this.currentPoints.length > 1) {
+
+      let p1 = <Point>{ x: this.currentPoints[0].x, y: this.currentPoints[0].y };
+      let p2 = <Point>{ x: this.currentPoints[1].x, y: this.currentPoints[1].y, };
+
+      this.tools.drawRectangle(p2, p1, true);
+
+      this.currentPoints = null;
     }
-
-    // let ty = y - 15 <= context.canvas.height ? y + 15 : y - 15 : y;
-
-    this.context.fillText(`(${x}, ${y})`, tx, ty);
   }
-
-
 }
