@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
-import { RectangleTool } from './canvas/tools/rectangleTool';
+import { RectangleTool } from './canvas/tools/rectangle-tool';
 import { Utils } from './canvas/utils';
-import { Tool } from './canvas/interfaces/tool';
+import { iTool } from './canvas/interfaces/itool';
 import { Point } from './canvas/models/point';
 import { Grid } from './canvas/items/grid';
 import { GridArrows } from './canvas/items/grid-arrows';
 import { Text } from './canvas/items/text';
 import { Rectangle } from './canvas/shapes/rectangle';
 import { Size } from './canvas/models/size';
+import { iDrawable } from './canvas/interfaces/iDrawable';
 
 @Component({
   selector: 'designer',
@@ -20,15 +21,19 @@ export class DesignerComponent implements OnInit {
 
   private utils: Utils;
   private context: CanvasRenderingContext2D;
-  private tools: Tool[] = [];
+  private tools: iTool[] = [];
 
-  private currentTool: Tool;
+  private currentTool: iTool;
   private pointerLocation: Point = new Point(0, 0);
   private trackMouse: boolean = true;
 
-
   drawGrid: boolean = true;
   gridCellSize: number = 10;
+
+  selectedShape: iDrawable;
+  isDragging: boolean = true;
+  dragOffsetX: number;
+  dragOffsetY: number;
 
   constructor() {
 
@@ -48,12 +53,17 @@ export class DesignerComponent implements OnInit {
 
     // fixes a problem where double clicking causes text to get selected on the canvas
     this.canvasRef.nativeElement.addEventListener('selectstart', function (e) {
-      e.preventDefault(); return false;
+      e.preventDefault();
+      return false;
     },
       false);
 
     this.canvasRef.nativeElement.onmousedown = (e) => {
       this.onMouseDown(e);
+    };
+
+    this.canvasRef.nativeElement.onmouseup = (e) => {
+      this.onMouseUp(e);
     };
 
     this.canvasRef.nativeElement.onmousemove = (e) => {
@@ -75,50 +85,65 @@ export class DesignerComponent implements OnInit {
       gridArrows.draw();
     }
 
-    // let rect = new Rectangle(this.context, new Point(200, 200), new Size(55, 55));
-    // rect.draw();
-
     this.tools.forEach(tool => {
       tool.shapes.forEach(shape => {
         shape.draw();
       });
     });
 
-    let text = new Text(this.context, 'Hello', new Point(40, 40), 'yellow', 'red', 8);
+    let text = new Text(this.context, 'Hello', new Point(40, 40), 'red');
     text.draw();
 
-
-    // this.context.strokeText("Hello World",10,50);
+    let rect = new Rectangle(this.context, new Point(40, 40), new Size(350, 150), 'red', false);
+    rect.draw();
 
     requestAnimationFrame(() => this.paint());
   }
 
   onMouseDown(e: MouseEvent) {
-    let p = this.utils.getMousePosition(this.context, e);
-
     if (this.currentTool != null) {
-      this.currentTool.useTool(this.context, p);
+      this.currentTool.useTool(this.context, this.pointerLocation);
     }
+
+    this.tools.forEach(tool => {
+      tool.shapes.forEach(shape => {
+        if (shape.pointWithinBounds(this.pointerLocation)) {
+          this.selectedShape = shape;
+
+          this.dragOffsetX = this.pointerLocation.x - shape.point.x;
+          this.dragOffsetY = this.pointerLocation.y - shape.point.y;
+        }
+      });
+    });
+
+    this.isDragging = true;
+  }
+
+  onMouseUp(e: MouseEvent) {
+    this.isDragging = false;
+    this.selectedShape = null;
   }
 
   onMouseMove(e: MouseEvent) {
-    let p = this.utils.getMousePosition(this.context, e);
-    this.pointerLocation = p;
+    this.pointerLocation = this.utils.getMousePosition(this.context, e);
+
+    if (this.selectedShape && this.isDragging) {
+      this.selectedShape.point = new Point(this.pointerLocation.x - this.dragOffsetX, this.pointerLocation.y - this.dragOffsetY);
+    }
   }
 
   setTool(id: string) {
-    if (this.tools == null) {
-      this.tools = [];
-    }
 
     switch (id) {
       case 'rectangle':
         this.currentTool = new RectangleTool();
-
+        break;
+      case 'select':
+        this.currentTool = null;
         break;
     }
 
-    if (!this.tools.includes(this.currentTool)) {
+    if (this.currentTool && !this.tools.includes(this.currentTool)) {
       this.tools.push(this.currentTool);
     }
   }

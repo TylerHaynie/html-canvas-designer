@@ -1,17 +1,17 @@
 <div class="wrapper">
     <div class="toolbar">
-        <button>Select</button>
+        <button [ngClass]="{'selected': currentTool && currentTool.id == 'select' }" (click)="setTool('select')">Select</button>
         <button>Move</button>
     </div>
     <div class="view">
-        <canvas #c id="c" width="800" height="800"></canvas>
+        <canvas #c id="c" width="600" height="600"></canvas>
     </div>
     <div class="toolbox">
         <div>
             <input [(ngModel)]="trackMouse" type="checkbox" /> Track Mouse
         </div>
         <div>
-            <button id="Draw Rectangle" [ngClass]="{'selected': currentTool && currentTool.id == 'rectangle' }" (click)="setTool('rectangle')">Draw Rectangle</button>
+            <button [ngClass]="{'selected': currentTool && currentTool.id == 'rectangle' }" (click)="setTool('rectangle')">Draw Rectangle</button>
         </div>
 
     </div>

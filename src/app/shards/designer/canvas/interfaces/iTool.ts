@@ -1,10 +1,10 @@
 import { iDrawable } from './iDrawable';
 import { Point } from '../models/point';
 
-export interface Tool {
+export interface iTool {
     name: string;
     id: string;
-    parent?: Tool;
+    parent?: iTool;
     shapes: iDrawable[];
     useTool(context: CanvasRenderingContext2D, point: Point);
 }
