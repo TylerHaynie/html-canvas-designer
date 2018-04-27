@@ -1,15 +1,21 @@
-import { Point } from './models';
+import { Point } from './models/point';
 
 export class Utils {
-    getMousePosition(context, evt): Point {
-        let rect = context.canvas.getBoundingClientRect(), // abs. size of element
-            scaleX = context.canvas.width / rect.width,    // relationship bitmap vs. element for X
-            scaleY = context.canvas.height / rect.height;  // relationship bitmap vs. element for Y
 
-        return <Point>{
-            x: (evt.clientX - rect.left) * scaleX,   // scale mouse coordinates after they have
-            y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
-        };
+    getMousePosition(context: CanvasRenderingContext2D, evt: MouseEvent): Point {
+        // abs. size of element
+        // relationship bitmap vs. element for X
+        // relationship bitmap vs. element for Y
+        let rect = context.canvas.getBoundingClientRect(),
+            scaleX = context.canvas.width / rect.width,
+            scaleY = context.canvas.height / rect.height;
+
+        // scale mouse coordinates after they have
+        // been adjusted to be relative to element
+        let mx = (evt.clientX - rect.left) * scaleX;
+        let my = (evt.clientY - rect.top) * scaleY;
+
+        return new Point(mx, my);
     }
 
     getDistance(n1: number, n2: number): number {
@@ -20,7 +26,6 @@ export class Utils {
         return ((x + y) / 2);
     }
 
-    //#region Random
     getRandomColor(): string {
         let r = 255 * Math.random() | 0,
             g = 255 * Math.random() | 0,
@@ -33,5 +38,9 @@ export class Utils {
         return 'rgb(' + val + ',' + val + ',' + val + ')';
     }
 
-    //#endregion
+    getRandomPointOnCanvas(context: CanvasRenderingContext2D) {
+        let rx = Math.floor((Math.random() * context.canvas.width) + 1);
+        let ry = Math.floor((Math.random() * context.canvas.width) + 1);
+        return new Point(rx, ry);
+    }
 }

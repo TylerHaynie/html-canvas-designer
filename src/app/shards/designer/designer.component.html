@@ -1,14 +1,23 @@
 <div class="wrapper">
     <div class="toolbar">
+        <button>Select</button>
         <button>Move</button>
     </div>
     <div class="view">
-        <canvas #c id="c" width="600" height="600"></canvas>
+        <canvas #c id="c" width="800" height="800"></canvas>
     </div>
     <div class="toolbox">
-        <button id="Draw Rectangle" [ngClass]="{'selected': currentTool && currentTool.id == 'rectangle' }" (click)="setTool('rectangle')">Draw Rectangle</button>
+        <div>
+            <input [(ngModel)]="trackMouse" type="checkbox" /> Track Mouse
+        </div>
+        <div>
+            <button id="Draw Rectangle" [ngClass]="{'selected': currentTool && currentTool.id == 'rectangle' }" (click)="setTool('rectangle')">Draw Rectangle</button>
+        </div>
+
     </div>
     <div class="statusbar">
-        <span *ngIf="pointerLocation">({{pointerLocation.x}}, {{pointerLocation.y}})</span>
+        <div *ngIf="pointerLocation" class="item">({{pointerLocation.x}}, {{pointerLocation.y}})</div>
     </div>
+
+    <div class="something"></div>
 </div>
