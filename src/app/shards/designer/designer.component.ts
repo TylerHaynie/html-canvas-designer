@@ -41,8 +41,9 @@ export class DesignerComponent implements OnInit {
 
   ngOnInit() {
     this.context = (this.canvasRef.nativeElement as HTMLCanvasElement).getContext('2d');
-    (this.canvasRef.nativeElement as HTMLCanvasElement).tabIndex = 1000;
-    (this.canvasRef.nativeElement as HTMLCanvasElement).style.outline = 'none';
+    this.canvasRef.nativeElement.tabIndex = 1000; // canvas needs a tabindex so we can listen for keyboard events
+    this.canvasRef.nativeElement.style.outline = 'none'; // removing the focus outline
+
     this.utils = new Utils();
     this.registerEvents();
     this.paint();

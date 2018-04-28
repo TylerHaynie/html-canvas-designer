@@ -147,6 +147,7 @@ button {
     box-shadow: 0 0 9px 2px black inset;
     border: 1px solid #2e6da1;
     text-align: center;
+    outline-style: none;
 }
 
 button:hover {

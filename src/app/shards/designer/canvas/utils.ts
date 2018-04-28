@@ -11,7 +11,7 @@ export class Utils {
             scaleY = context.canvas.height / rect.height;
 
         // scale mouse coordinates after they have
-        // been adjusted to be relative to element
+        // been adjusted to be relative to the canvas
         let mx = (evt.clientX - rect.left) * scaleX;
         let my = (evt.clientY - rect.top) * scaleY;
 
@@ -26,13 +26,6 @@ export class Utils {
         return ((x + y) / 2);
     }
 
-    getRandomRGBColor(): string {
-        let r = 255 * Math.random() | 0,
-            g = 255 * Math.random() | 0,
-            b = 255 * Math.random() | 0;
-        return this.rgbToHex('rgb(' + r + ',' + g + ',' + b + ')');
-    }
-
     getRandomHexColor(): string {
         let letters = '0123456789ABCDEF';
         let color = '#';
@@ -41,20 +34,6 @@ export class Utils {
         }
         return color;
       }
-
-    rgbToHex(rgb) {
-        let parts = rgb.substring(rgb.indexOf('(')).split(','),
-            r = parseInt((parts[0].substring(1)).trim(), 10),
-            g = parseInt((parts[1]).trim(), 10),
-            b = parseInt((parts[2]).trim(), 10);
-
-        return ('#' + r.toString(16) + g.toString(16) + b.toString(16)).toString();
-    }
-
-    getRandomShadeOfGray(): string {
-        let val = 50 * Math.random() | 0;
-        return 'rgb(' + val + ',' + val + ',' + val + ')';
-    }
 
     getRandomPointOnCanvas(context: CanvasRenderingContext2D) {
         let rx = Math.floor((Math.random() * context.canvas.width) + 1);

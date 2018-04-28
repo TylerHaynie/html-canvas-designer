@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="container toolbar">
-        <button [ngClass]="{'selected': currentTool && currentTool.id == 'select' }" (click)="setTool('select')">Select</button>
-        <button>Move</button>
+        <button [ngClass]="{'selected': !currentTool}" (click)="setTool('select')">Select</button>
+        <!-- <button>Rotate</button> -->
     </div>
     <div class="view">
         <canvas #c id="c" width="601" height="601"></canvas>
@@ -9,7 +9,7 @@
 
     <div class="container right-side">
         <div class="toolbox">
-            <div class="header">Tools</div>
+            <div class="header">Toolbox</div>
             <div>
                 <button [ngClass]="{'selected': currentTool && currentTool.id == 'rectangle' }" (click)="setTool('rectangle')">Rectangle</button>
             </div>
@@ -41,15 +41,16 @@
                 <div class="data">Fill
                     <input type="color" [(ngModel)]="selectedShape.color">
                 </div>
-                <div class="data">Alpha
-                    <input type="number" min="0" max="1" step="0.01" [(ngModel)]="selectedShape.fillAlpha">
-                </div>
                 <div class="data">Border
                     <input type="color" [(ngModel)]="selectedShape.outlineColor">
                 </div>
                 <div class="data">Alpha
-                        <input type="number" min="0" max="1" step="0.01" [(ngModel)]="selectedShape.borderAlpha">
-                    </div>
+                    <input type="number" min="0" max="1" step="0.01" [(ngModel)]="selectedShape.fillAlpha">
+                </div>
+
+                <div class="data">Alpha
+                    <input type="number" min="0" max="1" step="0.01" [(ngModel)]="selectedShape.borderAlpha">
+                </div>
                 <div class="data full-row">Border Thickness
                     <input type="text" [(ngModel)]="selectedShape.lineWidth">
                 </div>
