@@ -7,6 +7,7 @@ export class Grid implements iDrawable {
     context: CanvasRenderingContext2D;
     spacing: number = 10;
     color: string | CanvasGradient | CanvasPattern;
+    outlineColor: string | CanvasGradient | CanvasPattern;
     lineWidth: number;
     point: Point;
     size: Size;

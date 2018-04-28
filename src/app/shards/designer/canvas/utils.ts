@@ -30,7 +30,16 @@ export class Utils {
         let r = 255 * Math.random() | 0,
             g = 255 * Math.random() | 0,
             b = 255 * Math.random() | 0;
-        return 'rgb(' + r + ',' + g + ',' + b + ')';
+        return this.rgbToHex('rgb(' + r + ',' + g + ',' + b + ')');
+    }
+
+    rgbToHex(rgb) {
+        let parts = rgb.substring(rgb.indexOf('(')).split(','),
+            r = parseInt((parts[0].substring(1)).trim(), 10),
+            g = parseInt((parts[1]).trim(), 10),
+            b = parseInt((parts[2]).trim(), 10);
+
+        return ('#' + r.toString(16) + g.toString(16) + b.toString(16)).toString();
     }
 
     getRandomShadeOfGray(): string {

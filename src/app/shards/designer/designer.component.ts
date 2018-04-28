@@ -28,7 +28,7 @@ export class DesignerComponent implements OnInit {
   private trackMouse: boolean = true;
 
   drawGrid: boolean = true;
-  gridCellSize: number = 10;
+  gridCellSize: number = 20;
 
   selectedShape: iDrawable;
   isDragging: boolean = true;
@@ -103,8 +103,6 @@ export class DesignerComponent implements OnInit {
       let lines = new CrossLines(this.context, this.pointerLocation, ds);
       lines.draw();
     }
-
-
 
 
     this.tools.forEach(tool => {
