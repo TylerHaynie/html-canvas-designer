@@ -20,19 +20,19 @@
             <div class="section" *ngIf="selectedShape">
                 <div class="title">Position</div>
                 <div class="data">X
-                    <input type="text" [(ngModel)]="selectedShape.point.x">
+                    <input type="number" [(ngModel)]="selectedShape.point.x">
                 </div>
                 <div class="data">Y
-                    <input type="text" [(ngModel)]="selectedShape.point.y">
+                    <input type="number" [(ngModel)]="selectedShape.point.y">
                 </div>
             </div>
             <div class="section" *ngIf="selectedShape">
                 <div class="title">Size</div>
                 <div class="data">W
-                    <input type="text" [(ngModel)]="selectedShape.size.width">
+                    <input type="number" [(ngModel)]="selectedShape.size.width">
                 </div>
                 <div class="data">H
-                    <input type="text" [(ngModel)]="selectedShape.size.height">
+                    <input type="number" [(ngModel)]="selectedShape.size.height">
                 </div>
             </div>
 
