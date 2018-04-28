@@ -26,12 +26,21 @@ export class Utils {
         return ((x + y) / 2);
     }
 
-    getRandomColor(): string {
+    getRandomRGBColor(): string {
         let r = 255 * Math.random() | 0,
             g = 255 * Math.random() | 0,
             b = 255 * Math.random() | 0;
         return this.rgbToHex('rgb(' + r + ',' + g + ',' + b + ')');
     }
+
+    getRandomHexColor(): string {
+        let letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
 
     rgbToHex(rgb) {
         let parts = rgb.substring(rgb.indexOf('(')).split(','),

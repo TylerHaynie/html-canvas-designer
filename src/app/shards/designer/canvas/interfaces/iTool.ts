@@ -7,4 +7,5 @@ export interface iTool {
     parent?: iTool;
     shapes: iDrawable[];
     useTool(context: CanvasRenderingContext2D, point: Point);
+    deleteShape(shape: iDrawable);
 }

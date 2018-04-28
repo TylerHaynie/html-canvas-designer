@@ -9,12 +9,14 @@ export class Rectangle implements iDrawable {
     color: string | CanvasGradient | CanvasPattern;
     solid: boolean;
     lineWidth: number;
+    fillAlpha: number;
+    borderAlpha: number;
 
     private context: CanvasRenderingContext2D;
 
     constructor(context: CanvasRenderingContext2D, point: Point, size: Size,
         color: string | CanvasGradient | CanvasPattern = '#79abfc', solid: boolean = true, lineWidth: number = 1,
-        outlineColor?: string | CanvasGradient | CanvasPattern) {
+        outlineColor?: string | CanvasGradient | CanvasPattern, fillAlpha: number = 1, borderAlpha: number = 1) {
         this.context = context;
         this.point = point;
         this.outlineColor = outlineColor;
@@ -22,6 +24,8 @@ export class Rectangle implements iDrawable {
         this.size = size;
         this.solid = solid;
         this.lineWidth = lineWidth;
+        this.fillAlpha = fillAlpha;
+        this.borderAlpha = borderAlpha;
     }
 
     draw(): void {
@@ -40,17 +44,26 @@ export class Rectangle implements iDrawable {
             this.context.strokeStyle = this.outlineColor;
 
             if (this.outlineColor) {
+
+                this.context.globalAlpha = this.fillAlpha;
                 this.context.fillRect(this.point.x, this.point.y, this.size.width, this.size.height);
+                this.context.globalAlpha = 1.0;
+
+                this.context.globalAlpha = this.borderAlpha;
                 this.context.strokeRect(this.point.x, this.point.y, this.size.width, this.size.height);
+                this.context.globalAlpha = 1.0;
             }
             else {
+                this.context.globalAlpha = this.fillAlpha;
                 this.context.fillRect(this.point.x, this.point.y, this.size.width, this.size.height);
+                this.context.globalAlpha = 1.0;
             }
         }
         else {
             this.context.strokeStyle = this.color;
             this.context.strokeRect(this.point.x, this.point.y, this.size.width, this.size.height);
         }
+
 
         // this.context.translate(0, 0);
     }

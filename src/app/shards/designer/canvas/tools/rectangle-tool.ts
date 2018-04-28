@@ -38,13 +38,26 @@ export class RectangleTool implements iTool {
             let y = mpy - (h / 2);
             let topLeft = new Point(x, y);
 
-            let rect = new Rectangle(context, topLeft, size, this.utils.getRandomColor(), true, 2, this.utils.getRandomColor());
+            let rect = new Rectangle(context, topLeft, size, this.utils.getRandomHexColor(), true, 2, this.utils.getRandomHexColor());
 
             this.shapes.push(rect);
             this.currentPoints = [];
 
             console.log('fill Color: ');
             console.log(rect.color);
+        }
+    }
+
+    deleteShape(shape: iDrawable) {
+        let shapeIndex = this.shapes.indexOf(shape);
+
+        if (shapeIndex >= 0) {
+            if (this.shapes.length === 1) {
+                this.shapes = [];
+            }
+            else {
+                this.shapes.splice(shapeIndex, 1);
+            }
         }
     }
 }

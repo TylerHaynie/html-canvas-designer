@@ -4,7 +4,7 @@
         <button>Move</button>
     </div>
     <div class="view">
-        <canvas #c id="c" width="701" height="701"></canvas>
+        <canvas #c id="c" width="601" height="601"></canvas>
     </div>
 
     <div class="container right-side">
@@ -41,13 +41,19 @@
                 <div class="data">Fill
                     <input type="color" [(ngModel)]="selectedShape.color">
                 </div>
+                <div class="data">Alpha
+                    <input type="number" min="0" max="1" step="0.01" [(ngModel)]="selectedShape.fillAlpha">
+                </div>
                 <div class="data">Border
                     <input type="color" [(ngModel)]="selectedShape.outlineColor">
                 </div>
-                <div class="data full-row">Border Thickness
-                        <input type="text" [(ngModel)]="selectedShape.lineWidth">
+                <div class="data">Alpha
+                        <input type="number" min="0" max="1" step="0.01" [(ngModel)]="selectedShape.borderAlpha">
                     </div>
-                
+                <div class="data full-row">Border Thickness
+                    <input type="text" [(ngModel)]="selectedShape.lineWidth">
+                </div>
+
             </div>
         </div>
     </div>
@@ -56,9 +62,14 @@
         <div class="item">({{pointerLocation.x}}, {{pointerLocation.y}})</div>
     </div>
 
-    <div class="container something">
+    <div class="container options">
         <div>
-            <input [(ngModel)]="trackMouse" type="checkbox" /> Track Mouse
+            <div>
+                <input [(ngModel)]="trackMouse" type="checkbox" /> Track Mouse
+            </div>
+            <div>
+                <input [(ngModel)]="drawGrid" type="checkbox" /> Show Grid
+            </div>
         </div>
     </div>
 

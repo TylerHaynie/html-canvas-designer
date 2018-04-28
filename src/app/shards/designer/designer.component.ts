@@ -41,26 +41,10 @@ export class DesignerComponent implements OnInit {
 
   ngOnInit() {
     this.context = (this.canvasRef.nativeElement as HTMLCanvasElement).getContext('2d');
-    this.registerEvents();
-
-    // this.draw = new Draw(this.context);
+    (this.canvasRef.nativeElement as HTMLCanvasElement).tabIndex = 1000;
+    (this.canvasRef.nativeElement as HTMLCanvasElement).style.outline = 'none';
     this.utils = new Utils();
-
-    // testing
-    // this.setTool('rectangle');
-    // this.currentTool.shapes.push(
-    //   new Rectangle(this.context,
-    //     new Point(165, 218),
-    //     new Size(185, 217),
-    //     '#497663',
-    //     true,
-    //     1,
-    //     '#875319'));
-
-    // this.tools.push(this.currentTool);
-    // this.selectedShape = this.currentTool.shapes[0];
-    // end testing
-
+    this.registerEvents();
     this.paint();
   }
 
@@ -83,6 +67,10 @@ export class DesignerComponent implements OnInit {
 
     this.canvasRef.nativeElement.onmousemove = (e) => {
       this.onMouseMove(e);
+    };
+
+    this.canvasRef.nativeElement.onkeydown = (e) => {
+      this.onKeyDown(e);
     };
   }
 
@@ -145,6 +133,16 @@ export class DesignerComponent implements OnInit {
 
     if (this.selectedShape && this.isDragging) {
       this.selectedShape.point = new Point(this.pointerLocation.x - this.dragOffsetX, this.pointerLocation.y - this.dragOffsetY);
+    }
+  }
+
+  onKeyDown(e: KeyboardEvent) {
+    console.log(e.key);
+    if (e.key.toLocaleLowerCase() === 'delete') {
+      this.tools.forEach(tool => {
+        tool.deleteShape(this.selectedShape);
+      });
+      this.selectedShape = null;
     }
   }
 
