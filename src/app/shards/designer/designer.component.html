@@ -1,23 +1,66 @@
 <div class="wrapper">
-    <div class="toolbar">
+    <div class="container toolbar">
         <button [ngClass]="{'selected': currentTool && currentTool.id == 'select' }" (click)="setTool('select')">Select</button>
         <button>Move</button>
     </div>
     <div class="view">
-        <canvas #c id="c" width="600" height="600"></canvas>
+        <canvas #c id="c" width="801" height="801"></canvas>
     </div>
-    <div class="toolbox">
+
+    <div class="container right-side">
+        <div class="toolbox">
+            <div class="header">Tools</div>
+            <div>
+                <button [ngClass]="{'selected': currentTool && currentTool.id == 'rectangle' }" (click)="setTool('rectangle')">Rectangle</button>
+            </div>
+
+        </div>
+        <div class="properties">
+            <div class="header">Properties</div>
+            <div class="section" *ngIf="selectedShape">
+                <div class="title">Position</div>
+                <div class="data">X
+                    <input type="text" [(ngModel)]="selectedShape.point.x">
+                </div>
+                <div class="data">Y
+                    <input type="text" [(ngModel)]="selectedShape.point.y">
+                </div>
+            </div>
+            <div class="section" *ngIf="selectedShape">
+                <div class="title">Size</div>
+                <div class="data">W
+                    <input type="text" [(ngModel)]="selectedShape.size.width">
+                </div>
+                <div class="data">H
+                    <input type="text" [(ngModel)]="selectedShape.size.height">
+                </div>
+            </div>
+
+            <div class="section" *ngIf="selectedShape">
+                <div class="title">Design</div>
+                <div class="data">Fill
+                    <input type="color" [(ngModel)]="selectedShape.color">
+                </div>
+                <div class="data">Border
+                    <input type="color" [(ngModel)]="selectedShape.outlineColor">
+                </div>
+                <div class="data full-row">Border Thickness
+                        <input type="text" [(ngModel)]="selectedShape.lineWidth">
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="container statusbar">
+        <div class="item">({{pointerLocation.x}}, {{pointerLocation.y}})</div>
+    </div>
+
+    <div class="container something">
         <div>
             <input [(ngModel)]="trackMouse" type="checkbox" /> Track Mouse
         </div>
-        <div>
-            <button [ngClass]="{'selected': currentTool && currentTool.id == 'rectangle' }" (click)="setTool('rectangle')">Draw Rectangle</button>
-        </div>
-
-    </div>
-    <div class="statusbar">
-        <div *ngIf="pointerLocation" class="item">({{pointerLocation.x}}, {{pointerLocation.y}})</div>
     </div>
 
-    <div class="something"></div>
+
 </div>

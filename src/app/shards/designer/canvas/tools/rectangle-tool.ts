@@ -1,10 +1,10 @@
 import { Draw } from '../draw';
 import { Rectangle } from '../shapes/rectangle';
 import { Utils } from '../utils';
-import { iDrawable } from '../interfaces/iDrawable';
 import { iTool } from '../interfaces/iTool';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
+import { iDrawable } from '../interfaces/iDrawable';
 
 export class RectangleTool implements iTool {
     name = 'Rectangle';
@@ -42,6 +42,9 @@ export class RectangleTool implements iTool {
 
             this.shapes.push(rect);
             this.currentPoints = [];
+
+            console.log('fill Color: ');
+            console.log(rect.color);
         }
     }
 }

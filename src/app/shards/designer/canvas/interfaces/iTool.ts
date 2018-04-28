@@ -1,5 +1,5 @@
-import { iDrawable } from './iDrawable';
 import { Point } from '../models/point';
+import { iDrawable } from './iDrawable';
 
 export interface iTool {
     name: string;

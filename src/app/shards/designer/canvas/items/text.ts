@@ -1,7 +1,7 @@
 import { iDrawable } from '../interfaces/iDrawable';
 import { Point } from '../models/point';
 
-export class Text implements iDrawable {
+export class Text {
     private context: CanvasRenderingContext2D;
     text: string;
     point: Point;
@@ -43,11 +43,5 @@ export class Text implements iDrawable {
         if (this.outlineColor) {
             this.context.strokeText(this.text, this.point.x, this.point.y, this.maxWidth);
         }
-    }
-
-    pointWithinBounds(checkPoint: Point): boolean {
-
-
-        return false;
     }
 }

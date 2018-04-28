@@ -27,6 +27,14 @@ export class Rectangle implements iDrawable {
     draw(): void {
         this.context.lineWidth = this.lineWidth;
 
+        // // finding center
+        let cx = this.point.x + this.size.width / 2;
+        let cy = this.point.y - this.size.height / 2;
+
+        // this.context.translate(cx, cy);
+        // this.context.rotate((Math.PI / 180) * 25);  // rotate 25 degrees.
+
+
         if (this.solid) {
             this.context.fillStyle = this.color;
             this.context.strokeStyle = this.outlineColor;
@@ -43,6 +51,8 @@ export class Rectangle implements iDrawable {
             this.context.strokeStyle = this.color;
             this.context.strokeRect(this.point.x, this.point.y, this.size.width, this.size.height);
         }
+
+        // this.context.translate(0, 0);
     }
 
     pointWithinBounds(checkPoint: Point): boolean {

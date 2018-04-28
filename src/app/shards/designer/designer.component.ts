@@ -4,7 +4,7 @@ import { Utils } from './canvas/utils';
 import { iTool } from './canvas/interfaces/itool';
 import { Point } from './canvas/models/point';
 import { Grid } from './canvas/items/grid';
-import { GridArrows } from './canvas/items/grid-arrows';
+import { CrossLines } from './canvas/items/cross-lines';
 import { Text } from './canvas/items/text';
 import { Rectangle } from './canvas/shapes/rectangle';
 import { Size } from './canvas/models/size';
@@ -46,6 +46,21 @@ export class DesignerComponent implements OnInit {
     // this.draw = new Draw(this.context);
     this.utils = new Utils();
 
+    // testing
+    // this.setTool('rectangle');
+    // this.currentTool.shapes.push(
+    //   new Rectangle(this.context,
+    //     new Point(165, 218),
+    //     new Size(185, 217),
+    //     '#497663',
+    //     true,
+    //     1,
+    //     '#875319'));
+
+    // this.tools.push(this.currentTool);
+    // this.selectedShape = this.currentTool.shapes[0];
+    // end testing
+
     this.paint();
   }
 
@@ -76,14 +91,21 @@ export class DesignerComponent implements OnInit {
 
     this.context.lineWidth = 5;
     if (this.drawGrid) {
-      let grid = new Grid(this.context, this.gridCellSize, '#252525', 3);
+      let gp = new Point(0, 0);
+      let ds = new Size(this.context.canvas.width, this.context.canvas.height);
+
+      let grid = new Grid(this.context, gp, ds, this.gridCellSize, '#252525', 3);
       grid.draw();
     }
 
     if (this.trackMouse) {
-      let gridArrows = new GridArrows(this.context, this.pointerLocation, this.context.canvas.width, this.context.canvas.height);
-      gridArrows.draw();
+      let ds = new Size(this.context.canvas.width, this.context.canvas.height);
+      let lines = new CrossLines(this.context, this.pointerLocation, ds);
+      lines.draw();
     }
+
+
+
 
     this.tools.forEach(tool => {
       tool.shapes.forEach(shape => {
@@ -91,16 +113,12 @@ export class DesignerComponent implements OnInit {
       });
     });
 
-    let text = new Text(this.context, 'Hello', new Point(40, 40), 'red');
-    text.draw();
-
-    let rect = new Rectangle(this.context, new Point(40, 40), new Size(350, 150), 'red', false);
-    rect.draw();
-
     requestAnimationFrame(() => this.paint());
   }
 
   onMouseDown(e: MouseEvent) {
+    this.selectedShape = null;
+
     if (this.currentTool != null) {
       this.currentTool.useTool(this.context, this.pointerLocation);
     }
@@ -117,11 +135,11 @@ export class DesignerComponent implements OnInit {
     });
 
     this.isDragging = true;
+    console.log(this.selectedShape);
   }
 
   onMouseUp(e: MouseEvent) {
     this.isDragging = false;
-    this.selectedShape = null;
   }
 
   onMouseMove(e: MouseEvent) {

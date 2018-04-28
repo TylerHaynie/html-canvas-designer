@@ -1,4 +1,3 @@
-import { iDrawable } from '../interfaces/iDrawable';
 import { Point } from '../models/point';
 
 export class LineSegment {
@@ -17,7 +16,7 @@ export class LineSegment {
     }
 }
 
-export class Line implements iDrawable {
+export class Line {
     context: CanvasRenderingContext2D;
     segments: LineSegment[];
     color: string | CanvasGradient | CanvasPattern;
@@ -49,4 +48,10 @@ export class Line implements iDrawable {
         this.context.strokeStyle = this.color;
         this.context.stroke();
     }
+
+    pointWithinBounds(p: Point){
+
+        return false;
+    }
+
 }
