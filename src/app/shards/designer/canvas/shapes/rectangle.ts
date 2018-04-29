@@ -1,6 +1,7 @@
 import { iDrawable } from '../interfaces/iDrawable';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
+import { Utils } from '../utils';
 
 export class Rectangle implements iDrawable {
     point: Point;
@@ -11,61 +12,52 @@ export class Rectangle implements iDrawable {
     lineWidth: number;
     fillAlpha: number;
     borderAlpha: number;
+    drawOutline: boolean;
 
     private context: CanvasRenderingContext2D;
+    private utils = new Utils();
 
-    constructor(context: CanvasRenderingContext2D, point: Point, size: Size,
-        color: string | CanvasGradient | CanvasPattern = '#79abfc', solid: boolean = true, lineWidth: number = 1,
-        outlineColor?: string | CanvasGradient | CanvasPattern, fillAlpha: number = 1, borderAlpha: number = 1) {
+    constructor(context: CanvasRenderingContext2D, point: Point, size: Size, 
+        color?: string | CanvasGradient | CanvasPattern, outlineColor?: string | CanvasGradient | CanvasPattern,
+        solid?: boolean, fillAlpha?: number, lineWidth?: number, drawOutline?: boolean, borderAlpha?: number) {
         this.context = context;
         this.point = point;
-        this.outlineColor = outlineColor;
-        this.color = color;
         this.size = size;
-        this.solid = solid;
-        this.lineWidth = lineWidth;
-        this.fillAlpha = fillAlpha;
-        this.borderAlpha = borderAlpha;
+
+        this.outlineColor = outlineColor || this.utils.getRandomHexColor();
+        this.color = color || this.utils.getRandomHexColor();
+        this.solid = solid || true;
+        this.lineWidth = lineWidth || 1;
+        this.fillAlpha = fillAlpha || 1;
+        this.borderAlpha = borderAlpha || 1;
+        this.drawOutline = drawOutline || true;
     }
 
     draw(): void {
         this.context.lineWidth = this.lineWidth;
 
         // // finding center
-        let cx = this.point.x + this.size.width / 2;
-        let cy = this.point.y - this.size.height / 2;
+        // let cx = this.point.x + this.size.width / 2;
+        // let cy = this.point.y - this.size.height / 2;
 
         // this.context.translate(cx, cy);
         // this.context.rotate((Math.PI / 180) * 25);  // rotate 25 degrees.
 
 
+        this.context.fillStyle = this.color;
+        this.context.strokeStyle = this.outlineColor;
+
         if (this.solid) {
-            this.context.fillStyle = this.color;
-            this.context.strokeStyle = this.outlineColor;
-
-            if (this.outlineColor) {
-
-                this.context.globalAlpha = this.fillAlpha;
-                this.context.fillRect(this.point.x, this.point.y, this.size.width, this.size.height);
-                this.context.globalAlpha = 1.0;
-
-                this.context.globalAlpha = this.borderAlpha;
-                this.context.strokeRect(this.point.x, this.point.y, this.size.width, this.size.height);
-                this.context.globalAlpha = 1.0;
-            }
-            else {
-                this.context.globalAlpha = this.fillAlpha;
-                this.context.fillRect(this.point.x, this.point.y, this.size.width, this.size.height);
-                this.context.globalAlpha = 1.0;
-            }
+            this.context.globalAlpha = this.fillAlpha;
+            this.context.fillRect(this.point.x, this.point.y, this.size.width, this.size.height);
+            this.context.globalAlpha = 1.0;
         }
-        else {
-            this.context.strokeStyle = this.color;
+
+        if (this.drawOutline) {
+            this.context.globalAlpha = this.borderAlpha;
             this.context.strokeRect(this.point.x, this.point.y, this.size.width, this.size.height);
+            this.context.globalAlpha = 1.0;
         }
-
-
-        // this.context.translate(0, 0);
     }
 
     pointWithinBounds(checkPoint: Point): boolean {

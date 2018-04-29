@@ -30,14 +30,20 @@ export class Utils {
         let letters = '0123456789ABCDEF';
         let color = '#';
         for (let i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
+            color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
-      }
+    }
 
     getRandomPointOnCanvas(context: CanvasRenderingContext2D) {
         let rx = Math.floor((Math.random() * context.canvas.width) + 1);
         let ry = Math.floor((Math.random() * context.canvas.width) + 1);
         return new Point(rx, ry);
+    }
+
+    shiftArrayItem(arr: Array<any>, fromIndex: number, toIndex: number) {
+        let item = arr[fromIndex];
+        arr.splice(fromIndex, 1);
+        arr.splice(toIndex, 0, item);
     }
 }
