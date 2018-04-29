@@ -13,11 +13,13 @@ export class Rectangle implements iDrawable {
     fillAlpha: number;
     borderAlpha: number;
     drawOutline: boolean;
+    rotationDegrees: number = 0;
 
     private context: CanvasRenderingContext2D;
     private utils = new Utils();
+    private centerPoint: Point;
 
-    constructor(context: CanvasRenderingContext2D, point: Point, size: Size, 
+    constructor(context: CanvasRenderingContext2D, point: Point, size: Size,
         color?: string | CanvasGradient | CanvasPattern, outlineColor?: string | CanvasGradient | CanvasPattern,
         solid?: boolean, fillAlpha?: number, lineWidth?: number, drawOutline?: boolean, borderAlpha?: number) {
         this.context = context;
@@ -34,28 +36,41 @@ export class Rectangle implements iDrawable {
     }
 
     draw(): void {
-        this.context.lineWidth = this.lineWidth;
 
-        // // finding center
-        // let cx = this.point.x + this.size.width / 2;
-        // let cy = this.point.y - this.size.height / 2;
+        let offsetx = this.size.width / 2;
+        let offsetY = this.size.height / 2;
 
-        // this.context.translate(cx, cy);
-        // this.context.rotate((Math.PI / 180) * 25);  // rotate 25 degrees.
+        this.rotate(offsetx, offsetY);
+    }
 
+    rotate(offsetX, offsetY){
+        this.context.save();
 
+        // centering on the rectangle
+        this.context.translate(this.point.x + offsetX, this.point.y + offsetY);
+        this.context.rotate(this.utils.degreesToRadians(this.rotationDegrees));
+
+        this.drawRect(-offsetX, -offsetY);
+
+        this.context.setTransform(1, 0, 0, 1, 0, 0);
+        this.context.restore();
+    }
+
+    drawRect(offsetX, offsetY) {
         this.context.fillStyle = this.color;
         this.context.strokeStyle = this.outlineColor;
-
+        this.context.lineWidth = this.lineWidth;
         if (this.solid) {
             this.context.globalAlpha = this.fillAlpha;
-            this.context.fillRect(this.point.x, this.point.y, this.size.width, this.size.height);
+            // top left
+            this.context.fillRect(offsetX, offsetY, this.size.width, this.size.height);
             this.context.globalAlpha = 1.0;
         }
 
         if (this.drawOutline) {
             this.context.globalAlpha = this.borderAlpha;
-            this.context.strokeRect(this.point.x, this.point.y, this.size.width, this.size.height);
+            // top left
+            this.context.strokeRect(-(this.size.width / 2), -(this.size.height / 2), this.size.width, this.size.height);
             this.context.globalAlpha = 1.0;
         }
     }

@@ -22,6 +22,10 @@ export class Utils {
         return Math.abs(Math.max(n1, n2) - Math.min(n1, n2));
     }
 
+    degreesToRadians(degrees: number) {
+        return degrees * Math.PI / 180;
+    }
+
     findHalf(x, y) {
         return ((x + y) / 2);
     }

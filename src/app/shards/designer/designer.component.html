@@ -30,7 +30,6 @@
                         <input type="number" [(ngModel)]="selectedShape.point.y">
                     </div>
                 </div>
-
             </div>
             <div class="section" *ngIf="selectedShape">
                 <div class="title">Size</div>
@@ -42,8 +41,16 @@
                         <input type="number" min="0" step="1" [(ngModel)]="selectedShape.size.height">
                     </div>
                 </div>
+            </div>
 
-
+            <div class="section" *ngIf="selectedShape">
+                <div class="title">Rotation</div>
+                <div class="group">
+                    <div>
+                        d
+                        <input type="number" step="5"[(ngModel)]="selectedShape.rotationDegrees">
+                    </div>
+                </div>
             </div>
 
             <div class="section" *ngIf="selectedShape">
