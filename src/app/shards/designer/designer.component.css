@@ -204,13 +204,16 @@ button:active {
     -webkit-box-shadow: 0 0 0 0 black;
     box-shadow: inset 0 0 7px 1px rgb(60, 149, 177);
 }
-.seperator{
+
+.seperator {
     background-color: #9c9c9c;
     height: 2px;
 }
+
 .toolbar .selected {
     border: 1px solid #cc6868;
 }
+
 .toolbox .selected {
     border: 1px solid #2d882d;
 }

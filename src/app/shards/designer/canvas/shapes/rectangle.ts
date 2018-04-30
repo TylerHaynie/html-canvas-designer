@@ -116,12 +116,8 @@ export class Rectangle implements iDrawable {
         let topLeft = this.getTopLeftPoint(this.point);
         let bottomRight = this.getBottomRight(this.point);
 
-        if (checkPoint.x >= topLeft.x &&
-            checkPoint.x <= bottomRight.x) {
-
-            if (checkPoint.y >= topLeft.y &&
-                checkPoint.y <= bottomRight.y) {
-
+        if (checkPoint.x >= topLeft.x && checkPoint.x <= bottomRight.x) {
+            if (checkPoint.y >= topLeft.y && checkPoint.y <= bottomRight.y) {
                 return true;
             }
         }
@@ -137,7 +133,7 @@ export class Rectangle implements iDrawable {
         let offsetY = ((this.scale.y * this.size.height) - this.size.height) / 2;
 
         // added linewidth and scale
-        return new Point(point.x - lw - offsetX, point.y + lw + offsetY);
+        return new Point(point.x - lw - offsetX, point.y - lw - offsetY);
     }
 
     getBottomRight(point: Point) {
