@@ -15,7 +15,7 @@
             </div>
 
         </div>
-        <div class="properties">
+        <div class="properties" *ngIf="selectedShape">
             <div class="header">Properties</div>
             <div class="section" *ngIf="selectedShape">
                 <div class="title">Position</div>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <div class="section" *ngIf="selectedShape">
+            <div class="section">
                 <div class="title">Size</div>
                 <div class="group">
                     <div>w
@@ -43,17 +43,45 @@
                 </div>
             </div>
 
-            <div class="section" *ngIf="selectedShape">
+            <div class="section">
                 <div class="title">Rotation</div>
                 <div class="group">
                     <div>
                         d
-                        <input type="number" step="5"[(ngModel)]="selectedShape.rotationDegrees">
+                        <input type="number" step="5" [(ngModel)]="selectedShape.rotationDegrees">
                     </div>
                 </div>
             </div>
 
-            <div class="section" *ngIf="selectedShape">
+            <div class="section">
+                <div class="title">Scale</div>
+                <div class="group">
+                    <div>
+                        x
+                        <input type="number" step=".1" [(ngModel)]="selectedShape.scale.x">
+                    </div>
+                    <div>
+                        y
+                        <input type="number" step=".1" [(ngModel)]="selectedShape.scale.y">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="title">Flip</div>
+                <div class="group">
+                    <div>
+                        x
+                        <input [(ngModel)]="selectedShape.flip.flipX" type="checkbox" />
+                    </div>
+                    <div>
+                        y
+                        <input [(ngModel)]="selectedShape.flip.flipY" type="checkbox" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
                 <div class="title">Design</div>
 
                 <div class="group">

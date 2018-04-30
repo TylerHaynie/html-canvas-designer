@@ -2,10 +2,14 @@ import { iDrawable } from '../interfaces/iDrawable';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
 import { Utils } from '../utils';
+import { Scale } from '../models/scale';
+import { Flip } from '../models/flip';
 
 export class Rectangle implements iDrawable {
     point: Point;
     size: Size;
+    scale: Scale;
+    flip: Flip;
     outlineColor: string | CanvasGradient | CanvasPattern;
     color: string | CanvasGradient | CanvasPattern;
     solid: boolean;
@@ -25,6 +29,7 @@ export class Rectangle implements iDrawable {
         this.context = context;
         this.point = point;
         this.size = size;
+        this.flip = new Flip(false, false);
 
         this.outlineColor = outlineColor || this.utils.getRandomHexColor();
         this.color = color || this.utils.getRandomHexColor();
@@ -33,30 +38,29 @@ export class Rectangle implements iDrawable {
         this.fillAlpha = fillAlpha || 1;
         this.borderAlpha = borderAlpha || 1;
         this.drawOutline = drawOutline || true;
+        this.scale = new Scale(1, 1);
     }
 
     draw(): void {
-
-        let offsetx = this.size.width / 2;
-        let offsetY = this.size.height / 2;
-
-        this.rotate(offsetx, offsetY);
-    }
-
-    rotate(offsetX, offsetY){
         this.context.save();
+        let offsetX = this.size.width / 2;
+        let offsetY = this.size.height / 2;
 
         // centering on the rectangle
         this.context.translate(this.point.x + offsetX, this.point.y + offsetY);
+
+        // applying any rotation
         this.context.rotate(this.utils.degreesToRadians(this.rotationDegrees));
 
-        this.drawRect(-offsetX, -offsetY);
+        // applying scale
+        this.context.scale(this.scale.x, this.scale.y);
 
+        this.drawRect(-offsetX, -offsetY);
         this.context.setTransform(1, 0, 0, 1, 0, 0);
         this.context.restore();
     }
 
-    drawRect(offsetX, offsetY) {
+    drawRect(offsetX: number, offsetY: number) {
         this.context.fillStyle = this.color;
         this.context.strokeStyle = this.outlineColor;
         this.context.lineWidth = this.lineWidth;
@@ -78,6 +82,9 @@ export class Rectangle implements iDrawable {
     pointWithinBounds(checkPoint: Point): boolean {
         let topLeft = this.point;
         let bottomRight = new Point(this.point.x + this.size.width, this.point.y + this.size.height);
+
+        // let scaledTL = // TODO: scale top left point
+        // let scaledBR = // TODO: scale bottom right point
 
         if ((checkPoint.x >= topLeft.x) && (checkPoint.x <= bottomRight.x)) {
             if (checkPoint.y >= topLeft.y && checkPoint.y <= bottomRight.y) {
