@@ -80,18 +80,48 @@ export class Rectangle implements iDrawable {
     }
 
     pointWithinBounds(checkPoint: Point): boolean {
-        let topLeft = this.point;
-        let bottomRight = new Point(this.point.x + this.size.width, this.point.y + this.size.height);
+        let topLeft = this.getTopLeftPoint();
+        let bottomRight = this.getBottomRight();
+
 
         // let scaledTL = // TODO: scale top left point
         // let scaledBR = // TODO: scale bottom right point
 
-        if ((checkPoint.x >= topLeft.x) && (checkPoint.x <= bottomRight.x)) {
-            if (checkPoint.y >= topLeft.y && checkPoint.y <= bottomRight.y) {
+        if (checkPoint.x >= topLeft.x &&
+            checkPoint.x <= bottomRight.x) {
+
+            if (checkPoint.y >= topLeft.y &&
+                checkPoint.y <= bottomRight.y) {
+
                 return true;
             }
         }
 
         return false;
+    }
+
+    getTopLeftPoint(): Point {
+        let lw = this.lineWidth / 2;
+
+        // scale offset
+        let offsetX = ((this.scale.x * this.size.width) - this.size.width) / 2;
+        let offsetY = ((this.scale.y * this.size.height) - this.size.height) / 2;
+
+        // added linewidth and scale
+        return new Point(this.point.x - lw - offsetX, this.point.y + lw + offsetY);
+    }
+
+    getBottomRight() {
+        let lw = this.lineWidth / 2;
+
+        // true bottom right point
+        let br = new Point(this.point.x + this.size.width, this.point.y + this.size.height);
+
+        // scale offset
+        let offsetX = ((this.scale.x * this.size.width) - this.size.width) / 2;
+        let offsetY = ((this.scale.y * this.size.height) - this.size.height) / 2;
+
+        // added linewidth and scale
+        return new Point(br.x + lw + offsetX, br.y + lw + offsetY);
     }
 }
