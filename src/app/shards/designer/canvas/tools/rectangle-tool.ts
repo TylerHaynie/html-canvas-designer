@@ -62,28 +62,28 @@ export class RectangleTool implements iTool {
         }
     }
 
-    bringForward(shape: iDrawable) {
+    pushBack(shape: iDrawable) {
         if (this.shapes.includes(shape)) {
             let shapeIndex = this.shapes.indexOf(shape);
             this.utils.shiftArrayItem(this.shapes, shapeIndex, shapeIndex - 1);
         }
     }
 
-    sendBack(shape: iDrawable) {
+    pullForward(shape: iDrawable) {
         if (this.shapes.includes(shape)) {
             let shapeIndex = this.shapes.indexOf(shape);
             this.utils.shiftArrayItem(this.shapes, shapeIndex, shapeIndex + 1);
         }
     }
 
-    sendToBack(shape: iDrawable) {
+    pullToTop(shape: iDrawable) {
         if (this.shapes.includes(shape)) {
             let shapeIndex = this.shapes.indexOf(shape);
             this.utils.shiftArrayItem(this.shapes, shapeIndex, this.shapes.length - 1);
         }
     }
 
-    bringToFront(shape: iDrawable) {
+    pushToBack(shape: iDrawable) {
         if (this.shapes.includes(shape)) {
             let shapeIndex = this.shapes.indexOf(shape);
             this.utils.shiftArrayItem(this.shapes, shapeIndex, 0);

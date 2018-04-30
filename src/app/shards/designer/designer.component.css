@@ -2,7 +2,7 @@ canvas {
     background: #111;
 }
 
-input{
+input {
     border: none;
     -webkit-box-shadow: 0 0 0 0 black;
     box-shadow: inset 0 0 1px 1px #080808;
@@ -55,6 +55,13 @@ input{
     border: 1px solid rgb(58, 58, 58);
     box-shadow: 0 0 2px 2px #1d1d1d;
     border-radius: 8px;
+}
+
+.layer-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-row-gap: 3px;
+    grid-column-gap: 1px;
 }
 
 .toolbox div {
@@ -138,13 +145,13 @@ input{
     grid-row-gap: .3em;
 }
 
-.group div{
+.group div {
     margin: 0;
     /* margin: 0;
     margin-bottom: 1px; */
 }
 
-.group .full-row{
+.group .full-row {
     grid-column: 1 / 3;
 }
 
@@ -157,7 +164,7 @@ input{
     height: 15px;
 }
 
-.full-row input{
+.full-row input {
     width: 100%;
     height: 14px;
 }
@@ -171,14 +178,13 @@ button {
     background-color: rgb(41, 41, 41);
     box-shadow: 0 0 9px 2px black inset;
     border: 1px solid #2e6da1;
-    text-align: center;
     outline-style: none;
 }
 
-button:hover {
-    background-color: rgb(60, 149, 177);
-    border: 1px solid #bbbbbb;
-    text-shadow: 1px 1px #000;
+.layer-controls button.min {
+    font-size: .75em;
+    padding: 4px 12px;
+    text-align: center;
 }
 
 .toolbox button {
@@ -186,6 +192,18 @@ button:hover {
     text-align: left;
 }
 
-.selected {
+button:hover {
+    background-color: rgb(60, 149, 177);
+    border: 1px solid #838383;
+    text-shadow: 1px 1px #000;
+}
+.seperator{
+    background-color: #9c9c9c;
+    height: 2px;
+}
+.toolbar .selected {
     border: 1px solid #bd3e3e;
+}
+.toolbox .selected {
+    border: 1px solid #2d882d;
 }

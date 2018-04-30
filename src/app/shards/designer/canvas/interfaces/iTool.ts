@@ -8,4 +8,8 @@ export interface iTool {
     shapes: iDrawable[];
     useTool(context: CanvasRenderingContext2D, point: Point);
     deleteShape(shape: iDrawable);
+    pullForward(shape: iDrawable);
+    pullToTop(shape: iDrawable);
+    pushBack(shape: iDrawable);
+    pushToBack(shape: iDrawable);
 }

@@ -1,6 +1,7 @@
 <div class="wrapper">
     <div class="container toolbar">
-        <button [ngClass]="{'selected': !currentTool}" (click)="setTool('select')">Select</button>
+        <button [ngClass]="{'selected': currentToolbarItem == 'draw'}" (click)="setToolbarItem('draw')">Draw</button>
+        <button [ngClass]="{'selected': currentToolbarItem == 'select'}" (click)="setToolbarItem('select')">Select</button>
         <!-- <button>Rotate</button> -->
     </div>
     <div class="view">
@@ -10,6 +11,13 @@
     <div class="container right-side">
         <div class="toolbox">
             <div class="header">Toolbox</div>
+            <div class="layer-controls">
+                <button class="min" (click)="changeLayer('pull')">Pull</button>
+                <button class="min" (click)="changeLayer('push')">Push</button>
+                <button class="min" (click)="changeLayer('top')">Top</button>
+                <button class="min" (click)="changeLayer('bottom')">Bottom</button>
+            </div>
+            <div class="seperator"></div>
             <div>
                 <button [ngClass]="{'selected': currentTool && currentTool.id == 'rectangle' }" (click)="setTool('rectangle')">Rectangle</button>
             </div>

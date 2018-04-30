@@ -56,6 +56,7 @@ export class Rectangle implements iDrawable {
         this.context.scale(this.scale.x, this.scale.y);
 
         this.drawRect(-offsetX, -offsetY);
+
         this.context.setTransform(1, 0, 0, 1, 0, 0);
         this.context.restore();
     }
@@ -82,10 +83,6 @@ export class Rectangle implements iDrawable {
     pointWithinBounds(checkPoint: Point): boolean {
         let topLeft = this.getTopLeftPoint();
         let bottomRight = this.getBottomRight();
-
-
-        // let scaledTL = // TODO: scale top left point
-        // let scaledBR = // TODO: scale bottom right point
 
         if (checkPoint.x >= topLeft.x &&
             checkPoint.x <= bottomRight.x) {

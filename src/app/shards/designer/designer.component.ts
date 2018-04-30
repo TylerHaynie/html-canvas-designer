@@ -24,6 +24,7 @@ export class DesignerComponent implements OnInit {
   private tools: iTool[] = [];
 
   private currentTool: iTool;
+  private currentToolbarItem: string;
   private pointerLocation: Point = new Point(0, 0);
   private trackMouse: boolean = true;
 
@@ -106,10 +107,11 @@ export class DesignerComponent implements OnInit {
   onMouseDown(e: MouseEvent) {
     this.selectedShape = null;
 
-    if (this.currentTool != null) {
+    if (this.currentTool != null && this.currentToolbarItem === 'draw') {
       this.currentTool.useTool(this.context, this.pointerLocation);
     }
 
+    // quad tree here soon
     this.tools.forEach(tool => {
       tool.shapes.forEach(shape => {
         if (shape.pointWithinBounds(this.pointerLocation)) {
@@ -145,6 +147,10 @@ export class DesignerComponent implements OnInit {
       });
       this.selectedShape = null;
     }
+
+    if (e.key.toLocaleLowerCase() === 's') {
+      this.currentToolbarItem = 'select';
+    }
   }
 
   setTool(id: string) {
@@ -153,14 +159,33 @@ export class DesignerComponent implements OnInit {
       case 'rectangle':
         this.currentTool = new RectangleTool();
         break;
-      case 'select':
-        this.currentTool = null;
-        break;
     }
 
     if (this.currentTool && !this.tools.includes(this.currentTool)) {
       this.tools.push(this.currentTool);
     }
+  }
+
+  changeLayer(where: string) {
+
+    switch (where) {
+      case 'push':
+        this.currentTool.pushBack(this.selectedShape);
+        break;
+      case 'pull':
+        this.currentTool.pullForward(this.selectedShape);
+        break;
+      case 'top':
+        this.currentTool.pullToTop(this.selectedShape);
+        break;
+      case 'bottom':
+        this.currentTool.pushToBack(this.selectedShape);
+        break;
+    }
+  }
+
+  setToolbarItem(id: string) {
+    this.currentToolbarItem = id;
   }
 
 }
