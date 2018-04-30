@@ -24,7 +24,7 @@ export class DesignerComponent implements OnInit {
   private tools: iTool[] = [];
 
   private currentTool: iTool;
-  private currentToolbarItem: string;
+  private currentToolbarItem: string = 'draw';
   private pointerLocation: Point = new Point(0, 0);
   private trackMouse: boolean = true;
 
@@ -112,16 +112,18 @@ export class DesignerComponent implements OnInit {
     }
 
     // quad tree here soon
-    this.tools.forEach(tool => {
-      tool.shapes.forEach(shape => {
-        if (shape.pointWithinBounds(this.pointerLocation)) {
-          this.selectedShape = shape;
+    if (this.currentToolbarItem === 'select') {
+      this.tools.forEach(tool => {
+        tool.shapes.forEach(shape => {
+          if (shape.pointWithinBounds(this.pointerLocation)) {
+            this.selectedShape = shape;
 
-          this.dragOffsetX = this.pointerLocation.x - shape.point.x;
-          this.dragOffsetY = this.pointerLocation.y - shape.point.y;
-        }
+            this.dragOffsetX = this.pointerLocation.x - shape.point.x;
+            this.dragOffsetY = this.pointerLocation.y - shape.point.y;
+          }
+        });
       });
-    });
+    }
 
     this.isDragging = true;
     console.log(this.selectedShape);

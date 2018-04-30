@@ -1,7 +1,8 @@
 <div class="wrapper">
     <div class="container toolbar">
-        <button [ngClass]="{'selected': currentToolbarItem == 'draw'}" (click)="setToolbarItem('draw')">Draw</button>
         <button [ngClass]="{'selected': currentToolbarItem == 'select'}" (click)="setToolbarItem('select')">Select</button>
+        <button [ngClass]="{'selected': currentToolbarItem == 'draw'}" (click)="setToolbarItem('draw')">Draw</button>
+
         <!-- <button>Rotate</button> -->
     </div>
     <div class="view">
@@ -55,8 +56,7 @@
                 <div class="title">Rotation</div>
                 <div class="group">
                     <div>
-                        d
-                        <input type="number" step="5" [(ngModel)]="selectedShape.rotationDegrees">
+                        <input type="number" step="5" [(ngModel)]="selectedShape.rotationDegrees">°
                     </div>
                 </div>
             </div>
@@ -101,7 +101,7 @@
                         <input type="color" [(ngModel)]="selectedShape.color">
                     </div>
                     <div>
-                        a
+                        o
                         <input type="number" min="0" max="1" step="0.01" [(ngModel)]="selectedShape.fillAlpha">
                     </div>
                 </div>
@@ -115,30 +115,13 @@
                         <input type="color" [(ngModel)]="selectedShape.outlineColor">
                     </div>
                     <div>
-                        a
+                        o
                         <input type="number" min="0" max="1" step="0.01" [(ngModel)]="selectedShape.borderAlpha">
                     </div>
                     <div>w
                         <input type="number" min="0" step="0.5" [(ngModel)]="selectedShape.lineWidth">
                     </div>
                 </div>
-
-                <!-- <div class="data">Fill
-                    <input type="color" [(ngModel)]="selectedShape.color">
-                </div>
-                <div class="data">Border
-                    <input type="color" [(ngModel)]="selectedShape.outlineColor">
-                </div>
-                <div class="data">a
-                    <input type="number" min="0" max="1" step="0.01" [(ngModel)]="selectedShape.fillAlpha">
-                </div>
-
-                <div class="data">a
-                    <input type="number" min="0" max="1" step="0.01" [(ngModel)]="selectedShape.borderAlpha">
-                </div>
-                <div class="data full-row">Border Thickness
-                    <input type="text" [(ngModel)]="selectedShape.lineWidth">
-                </div> -->
 
             </div>
         </div>

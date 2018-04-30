@@ -202,7 +202,7 @@ button:hover {
     height: 2px;
 }
 .toolbar .selected {
-    border: 1px solid #bd3e3e;
+    border: 1px solid #cc6868;
 }
 .toolbox .selected {
     border: 1px solid #2d882d;

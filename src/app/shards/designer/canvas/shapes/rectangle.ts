@@ -55,6 +55,8 @@ export class Rectangle implements iDrawable {
         // applying scale
         this.context.scale(this.scale.x, this.scale.y);
 
+        // applying any flips
+        this.context.scale(this.flip.flipX ? -1 : 1, this.flip.flipY ? -1 : 1);
         this.drawRect(-offsetX, -offsetY);
 
         this.context.setTransform(1, 0, 0, 1, 0, 0);
@@ -62,6 +64,15 @@ export class Rectangle implements iDrawable {
     }
 
     drawRect(offsetX: number, offsetY: number) {
+
+        // testing flip
+        // horizontal grad
+        // let grd = this.context.createLinearGradient(0, 0, 0, 200);
+        // let grd = this.context.createLinearGradient(0, 0, 200, 0);
+        // grd.addColorStop(0, 'black');
+        // grd.addColorStop(1, 'white');
+        // this.context.fillStyle = grd;
+
         this.context.fillStyle = this.color;
         this.context.strokeStyle = this.outlineColor;
         this.context.lineWidth = this.lineWidth;
@@ -81,8 +92,29 @@ export class Rectangle implements iDrawable {
     }
 
     pointWithinBounds(checkPoint: Point): boolean {
-        let topLeft = this.getTopLeftPoint();
-        let bottomRight = this.getBottomRight();
+
+        // TODO: come back to this and use matrices
+        // let cx = (this.getTopLeftPoint(this.point).x + this.getBottomRight(this.point).x) / 2; // center of square coordinates
+        // let cy = (this.getTopLeftPoint(this.point).y + this.getBottomRight(this.point).y) / 2; // center of square coordinates
+        // let x = this.getTopLeftPoint(this.point).x; // coordinates of a corner point of the square
+        // let y = this.getTopLeftPoint(this.point).y; // coordinates of a corner point of the square
+        // let theta = this.rotationDegrees; // is the angle of rotation
+
+        // // translate point to origin
+        // let tempX = x - cx;
+        // let tempY = y - cy;
+
+        // // now apply rotation
+        // let rotatedX = tempX * Math.cos(theta) - tempY * Math.sin(theta);
+        // let rotatedY = tempX * Math.sin(theta) + tempY * Math.cos(theta);
+
+        // // translate back
+        // x = rotatedX + cx;
+        // y = rotatedY + cy;
+
+        // does not account for rotation
+        let topLeft = this.getTopLeftPoint(this.point);
+        let bottomRight = this.getBottomRight(this.point);
 
         if (checkPoint.x >= topLeft.x &&
             checkPoint.x <= bottomRight.x) {
@@ -97,7 +129,7 @@ export class Rectangle implements iDrawable {
         return false;
     }
 
-    getTopLeftPoint(): Point {
+    getTopLeftPoint(point: Point): Point {
         let lw = this.lineWidth / 2;
 
         // scale offset
@@ -105,14 +137,14 @@ export class Rectangle implements iDrawable {
         let offsetY = ((this.scale.y * this.size.height) - this.size.height) / 2;
 
         // added linewidth and scale
-        return new Point(this.point.x - lw - offsetX, this.point.y + lw + offsetY);
+        return new Point(point.x - lw - offsetX, point.y + lw + offsetY);
     }
 
-    getBottomRight() {
+    getBottomRight(point: Point) {
         let lw = this.lineWidth / 2;
 
         // true bottom right point
-        let br = new Point(this.point.x + this.size.width, this.point.y + this.size.height);
+        let br = new Point(point.x + this.size.width, point.y + this.size.height);
 
         // scale offset
         let offsetX = ((this.scale.x * this.size.width) - this.size.width) / 2;
