@@ -1,7 +1,7 @@
 {
   "name": "ideas",
-  "version": "0.0.0",
-  "license": "MIT",
+  "version": "alpha-0.1",
+  "license": "apache-2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
