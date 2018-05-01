@@ -2,11 +2,9 @@
     <div class="container toolbar">
         <button [ngClass]="{'selected': currentToolbarItem == 'select'}" (click)="setToolbarItem('select')">Select</button>
         <button [ngClass]="{'selected': currentToolbarItem == 'draw'}" (click)="setToolbarItem('draw')">Draw</button>
-
-        <!-- <button>Rotate</button> -->
     </div>
     <div class="view">
-        <canvas #c id="c" width="601" height="601"></canvas>
+        <canvas #c id="c" width="801" height="801"></canvas>
     </div>
 
     <div class="container right-side">
@@ -88,7 +86,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="section">
                 <div class="title">Design</div>

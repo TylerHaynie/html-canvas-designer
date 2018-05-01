@@ -4,41 +4,20 @@ import { Size } from '../models/size';
 import { Utils } from '../utils';
 import { Scale } from '../models/scale';
 import { Flip } from '../models/flip';
+import { Drawable } from '../models/drawable';
 
-export class Rectangle implements iDrawable {
+export class Rectangle extends Drawable implements iDrawable {
     point: Point;
     size: Size;
-    scale: Scale;
-    flip: Flip;
-    outlineColor: string | CanvasGradient | CanvasPattern;
-    color: string | CanvasGradient | CanvasPattern;
-    solid: boolean;
-    lineWidth: number;
-    fillAlpha: number;
-    borderAlpha: number;
-    drawOutline: boolean;
-    rotationDegrees: number = 0;
 
     private context: CanvasRenderingContext2D;
     private utils = new Utils();
-    private centerPoint: Point;
 
-    constructor(context: CanvasRenderingContext2D, point: Point, size: Size,
-        color?: string | CanvasGradient | CanvasPattern, outlineColor?: string | CanvasGradient | CanvasPattern,
-        solid?: boolean, fillAlpha?: number, lineWidth?: number, drawOutline?: boolean, borderAlpha?: number) {
+    constructor(context: CanvasRenderingContext2D, point: Point, size: Size) {
+        super();
         this.context = context;
         this.point = point;
         this.size = size;
-        this.flip = new Flip(false, false);
-
-        this.outlineColor = outlineColor || this.utils.getRandomHexColor();
-        this.color = color || this.utils.getRandomHexColor();
-        this.solid = solid || true;
-        this.lineWidth = lineWidth || 1;
-        this.fillAlpha = fillAlpha || 1;
-        this.borderAlpha = borderAlpha || 1;
-        this.drawOutline = drawOutline || true;
-        this.scale = new Scale(1, 1);
     }
 
     draw(): void {
@@ -94,23 +73,6 @@ export class Rectangle implements iDrawable {
     pointWithinBounds(checkPoint: Point): boolean {
 
         // TODO: come back to this and use matrices
-        // let cx = (this.getTopLeftPoint(this.point).x + this.getBottomRight(this.point).x) / 2; // center of square coordinates
-        // let cy = (this.getTopLeftPoint(this.point).y + this.getBottomRight(this.point).y) / 2; // center of square coordinates
-        // let x = this.getTopLeftPoint(this.point).x; // coordinates of a corner point of the square
-        // let y = this.getTopLeftPoint(this.point).y; // coordinates of a corner point of the square
-        // let theta = this.rotationDegrees; // is the angle of rotation
-
-        // // translate point to origin
-        // let tempX = x - cx;
-        // let tempY = y - cy;
-
-        // // now apply rotation
-        // let rotatedX = tempX * Math.cos(theta) - tempY * Math.sin(theta);
-        // let rotatedY = tempX * Math.sin(theta) + tempY * Math.cos(theta);
-
-        // // translate back
-        // x = rotatedX + cx;
-        // y = rotatedY + cy;
 
         // does not account for rotation
         let topLeft = this.getTopLeftPoint(this.point);

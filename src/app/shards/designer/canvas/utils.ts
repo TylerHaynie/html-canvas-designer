@@ -50,4 +50,22 @@ export class Utils {
         arr.splice(fromIndex, 1);
         arr.splice(toIndex, 0, item);
     }
+
+    drawPointWithText(context, x, y, size = 1, textEdge = 45) {
+        context.textAlign = 'right';
+        context.textBaseline = 'bottom';
+
+        let tx = x - 3;
+        let ty = y - 3;
+
+        if (x - textEdge <= 0) {
+            tx += textEdge + size;
+        }
+
+        if (y + textEdge < 0) {
+            ty += textEdge;
+        }
+
+        context.fillText(`(${x}, ${y})`, tx, ty);
+    }
 }
