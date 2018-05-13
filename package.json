@@ -1,6 +1,6 @@
 {
   "name": "ideas",
-  "version": "alpha-0.1",
+  "version": "0.0.1",
   "license": "apache-2.0",
   "scripts": {
     "ng": "ng",

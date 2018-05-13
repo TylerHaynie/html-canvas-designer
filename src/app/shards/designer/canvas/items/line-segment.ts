@@ -1,4 +1,6 @@
 import { Point } from '../models/point';
+import { iDrawable } from '../interfaces/iDrawable';
+import { Size } from '../models/size';
 
 export class LineSegment {
     startPoint: Point;
@@ -17,16 +19,15 @@ export class LineSegment {
 }
 
 export class Line {
-    context: CanvasRenderingContext2D;
-    segments: LineSegment[];
-    color: string | CanvasGradient | CanvasPattern;
-    lineWidth: number;
 
-    constructor(context: CanvasRenderingContext2D, color: string | CanvasGradient | CanvasPattern, linewidth: number = 1) {
+    context: CanvasRenderingContext2D;
+    segments: LineSegment[] = [];
+    color: string | CanvasGradient | CanvasPattern;
+    lineWidth: number = 1;
+
+    constructor(context: CanvasRenderingContext2D, color: string | CanvasGradient | CanvasPattern) {
         this.context = context;
         this.color = color;
-        this.segments = [];
-        this.lineWidth = linewidth;
     }
 
     addSegment(segment: LineSegment) {
@@ -48,10 +49,4 @@ export class Line {
         this.context.strokeStyle = this.color;
         this.context.stroke();
     }
-
-    pointWithinBounds(p: Point){
-
-        return false;
-    }
-
 }

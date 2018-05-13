@@ -1,10 +1,10 @@
-import { Draw } from '../draw';
 import { Rectangle } from '../shapes/rectangle';
 import { Utils } from '../utils';
 import { iTool } from '../interfaces/iTool';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
 import { iDrawable } from '../interfaces/iDrawable';
+import { ShiftDirection } from '../enums/shift-directions';
 
 export class RectangleTool implements iTool {
     name = 'Rectangle';
@@ -62,31 +62,7 @@ export class RectangleTool implements iTool {
         }
     }
 
-    pushBack(shape: iDrawable) {
-        if (this.shapes.includes(shape)) {
-            let shapeIndex = this.shapes.indexOf(shape);
-            this.utils.shiftArrayItem(this.shapes, shapeIndex, shapeIndex - 1);
-        }
-    }
-
-    pullForward(shape: iDrawable) {
-        if (this.shapes.includes(shape)) {
-            let shapeIndex = this.shapes.indexOf(shape);
-            this.utils.shiftArrayItem(this.shapes, shapeIndex, shapeIndex + 1);
-        }
-    }
-
-    pullToTop(shape: iDrawable) {
-        if (this.shapes.includes(shape)) {
-            let shapeIndex = this.shapes.indexOf(shape);
-            this.utils.shiftArrayItem(this.shapes, shapeIndex, this.shapes.length - 1);
-        }
-    }
-
-    pushToBack(shape: iDrawable) {
-        if (this.shapes.includes(shape)) {
-            let shapeIndex = this.shapes.indexOf(shape);
-            this.utils.shiftArrayItem(this.shapes, shapeIndex, 0);
-        }
+    shiftItem(selectedShape: iDrawable, direction: ShiftDirection) {
+        this.utils.shiftDrawableItem(this.shapes, selectedShape, direction);
     }
 }

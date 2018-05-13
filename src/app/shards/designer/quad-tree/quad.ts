@@ -98,7 +98,7 @@ class Quad {
 
 
 // insertPoint(point: dPoint) {
-//     // Can I be here? 
+//     // Can I be here?
 //     if (this.boundry.containspoint(point)) {
 //         // Oh, I belong in this area? Sweet! Could I please stay here? If there's enough room of course.
 //         if (this.points.length < this.pointCapicity) {

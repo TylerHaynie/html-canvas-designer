@@ -2,32 +2,33 @@ import { LineSegment, Line } from '../items/line-segment';
 import { iDrawable } from '../interfaces/iDrawable';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
+import { Drawable } from '../models/drawable';
 
-export class Grid implements iDrawable {
+export class Grid extends Drawable implements iDrawable {
+
     context: CanvasRenderingContext2D;
-    spacing: number = 10;
-    color: string | CanvasGradient | CanvasPattern;
-    outlineColor: string | CanvasGradient | CanvasPattern;
-    lineWidth: number;
     point: Point;
     size: Size;
 
-    constructor(context: CanvasRenderingContext2D, point: Point, size: Size, spacing: number, color: string | CanvasGradient | CanvasPattern = '#252525', lineWidth: number = 1) {
+    spacing: number = 10;
+
+    constructor(context: CanvasRenderingContext2D, point: Point, size: Size, spacing: number) {
+        super();
+
         this.context = context;
         this.spacing = spacing;
-        this.color = color;
         this.point = point;
         this.size = size;
     }
 
     draw() {
-        let line = new Line(this.context, this.color, this.lineWidth);
+        let line = new Line(this.context, this.color);
 
         // verticle lines
         // start at 0.5 so the lines take up 1 whole pixel and not 2 halves
         for (let x = this.point.x + 0.5; x < this.size.width; x += this.spacing) {
             let segment = new LineSegment(new Point(x, 0));
-            segment.addPoint(new Point(x, this.size.width));
+            segment.addPoint(new Point(x, this.size.height));
             line.addSegment(segment);
         }
 
@@ -35,15 +36,18 @@ export class Grid implements iDrawable {
         // start at 0.5 so the lines take up 1 whole pixel and not 2 half pixels
         for (let y = this.point.y + 0.5; y < this.size.height; y += this.spacing) {
             let segment = new LineSegment(new Point(0, y));
-            segment.addPoint(new Point(this.size.height, y));
+            segment.addPoint(new Point(this.size.width, y));
             line.addSegment(segment);
         }
 
         line.draw();
     }
 
-    pointWithinBounds(p: Point) {
+    pointWithinBounds(point: Point) {
+        let withinBounds: boolean = false;
 
-        return false;
+
+
+        return withinBounds;
     }
 }

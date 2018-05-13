@@ -1,41 +1,37 @@
 import { LineSegment, Line } from '../items/line-segment';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
+import { Drawable } from '../models/drawable';
+import { iDrawable } from '../interfaces/iDrawable';
 
-export class CrossLines {
+export class CrossLines extends Drawable implements iDrawable {
+
     context: CanvasRenderingContext2D;
     point: Point;
-    color: string | CanvasGradient | CanvasPattern;
     size: Size;
-    lineGap: number;
-    lineWidth: number;
-    xText: string;
-    yText: string;
+
+    lineGap: number = 0;
+    xText: string = '';
+    yText: string = '';
     drawArrows: boolean;
 
-    constructor(context: CanvasRenderingContext2D, point: Point, size: Size, lineWidth: number = 1, drawArrows: boolean = false,
-        lineGap: number = 0, xText: string = '', yText: string = '', color: string | CanvasGradient | CanvasPattern = '#bfd7ff') {
+    constructor(context: CanvasRenderingContext2D, point: Point, size: Size, drawArrows: boolean = false) {
+        super();
 
         this.context = context;
         this.point = point;
-        this.color = color;
         this.size = size;
-        this.lineGap = lineGap;
-        this.lineWidth = lineWidth;
-        this.xText = xText;
-        this.yText = yText;
         this.drawArrows = drawArrows;
     }
 
     draw() {
-        // this.canvasContext.strokeStyle = linecolor;
-
-        let line = new Line(this.context, this.color, this.lineWidth);
+        let line = new Line(this.context, this.color);
 
         // horizontal line
         let x1 = new LineSegment(new Point(0, this.point.y));
         x1.addPoint(new Point(this.size.width / 2 - this.lineGap, this.point.y));
         line.addSegment(x1);
+
         // creating a gap
         let x2 = new LineSegment(new Point(this.size.width / 2 + this.lineGap, this.point.y));
         x2.addPoint(new Point(this.size.width, this.point.y));
@@ -49,11 +45,11 @@ export class CrossLines {
             line.addSegment(ra);
         }
 
-
         // verticle Line
         let y1 = new LineSegment(new Point(this.point.x, 0));
         y1.addPoint(new Point(this.point.x, this.size.height / 2 - this.lineGap));
         line.addSegment(y1);
+
         // creating a gap
         let y2 = new LineSegment(new Point(this.point.x, this.size.height / 2 + this.lineGap));
         y2.addPoint(new Point(this.point.x, this.size.height));
@@ -72,5 +68,13 @@ export class CrossLines {
         this.context.fillText(this.yText, this.point.x - 2.5, this.size.height / 2 + 2.5);
 
         line.draw();
+    }
+
+    pointWithinBounds(point: Point) {
+        let withinBounds: boolean = false;
+
+
+
+        return withinBounds;
     }
 }

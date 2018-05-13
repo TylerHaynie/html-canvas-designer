@@ -1,32 +1,26 @@
 import { iDrawable } from '../interfaces/iDrawable';
 import { Point } from '../models/point';
+import { Drawable } from '../models/drawable';
+import { Size } from '../models/size';
 
-export class Text {
-    private context: CanvasRenderingContext2D;
-    text: string;
+export class Text extends Drawable implements iDrawable {
+
+    context: CanvasRenderingContext2D;
     point: Point;
-    fillColor: string | CanvasGradient | CanvasPattern;
-    outlineColor: string | CanvasGradient | CanvasPattern;
-    lineWidth: number;
-    fontStyle: string;
-    alignment: string;
-    baseLine: string;
-    maxWidth?: number;
+    size: Size;
 
-    constructor(context: CanvasRenderingContext2D, text: string, point: Point, fillColor?: string | CanvasGradient | CanvasPattern,
-        outlineColor?: string | CanvasGradient | CanvasPattern, lineWidth: number = 1, fontStyle: string = '25px Arial',
-        alignment: string = 'start', baseLine: string = 'hanging', maxWidth: number = undefined) {
+    text: string;
+    fontStyle: string = '25px Arial';
+    alignment: string = 'start';
+    baseLine: string = 'hanging';
+
+    constructor(context: CanvasRenderingContext2D, point: Point, text: string, size?: Size) {
+        super();
 
         this.context = context;
         this.text = text;
         this.point = point;
-        this.fillColor = fillColor;
-        this.outlineColor = outlineColor;
-        this.lineWidth = lineWidth;
-        this.fontStyle = fontStyle;
-        this.alignment = alignment;
-        this.baseLine = baseLine;
-        this.maxWidth = maxWidth;
+        this.size = size;
     }
 
     draw() {
@@ -34,14 +28,22 @@ export class Text {
         this.context.textAlign = this.alignment;
         this.context.textBaseline = this.baseLine;
         this.context.strokeStyle = this.outlineColor;
-        this.context.fillStyle = this.fillColor;
+        this.context.fillStyle = this.color;
         this.context.lineWidth = this.lineWidth;
 
-        if (this.fillColor) {
-            this.context.fillText(this.text, this.point.x, this.point.y, this.maxWidth);
+        if (this.color) {
+            this.context.fillText(this.text, this.point.x, this.point.y, this.size ? this.size.width : undefined);
         }
         if (this.outlineColor) {
-            this.context.strokeText(this.text, this.point.x, this.point.y, this.maxWidth);
+            this.context.strokeText(this.text, this.point.x, this.point.y, this.size ? this.size.width : undefined);
         }
+    }
+
+    pointWithinBounds(point: Point) {
+        let withinBounds: boolean = false;
+
+        
+
+        return withinBounds;
     }
 }

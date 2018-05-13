@@ -1,3 +1,16 @@
+/* .wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    position: inherit;
+    height: 100%;
+}
+
+.view {
+    grid-column: 1;
+    grid-row: 1;
+} */
+
 canvas {
     background: #111;
 }
@@ -13,11 +26,12 @@ input {
 
 .wrapper {
     display: grid;
-    grid-template-columns: max-content auto max-content 1fr;
-    grid-template-rows: 1fr;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr auto;
     grid-gap: 1px;
     color: white;
     background-color: #111;
+    height: 100%;
 }
 
 .toolbar {
@@ -35,7 +49,7 @@ input {
 .view {
     grid-column: 1;
     grid-row: 2;
-    padding: 3px;
+    /* padding: 5px; */
     border-radius: 5px;
     border: 1px solid rgb(87, 150, 175);
     box-shadow: 0 0 2px 2px #1d1d1d;
@@ -147,8 +161,8 @@ input {
 
 .group div {
     margin: 0;
-    /* margin: 0;
-    margin-bottom: 1px; */
+    margin: 0;
+    margin-bottom: 1px;
 }
 
 .group .full-row {

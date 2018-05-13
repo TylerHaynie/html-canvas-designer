@@ -7,10 +7,10 @@ import { Flip } from '../models/flip';
 import { Drawable } from '../models/drawable';
 
 export class Rectangle extends Drawable implements iDrawable {
+    context: CanvasRenderingContext2D;
     point: Point;
     size: Size;
 
-    private context: CanvasRenderingContext2D;
     private utils = new Utils();
 
     constructor(context: CanvasRenderingContext2D, point: Point, size: Size) {
@@ -22,19 +22,20 @@ export class Rectangle extends Drawable implements iDrawable {
 
     draw(): void {
         this.context.save();
+        // finding center
         let offsetX = this.size.width / 2;
         let offsetY = this.size.height / 2;
 
         // centering on the rectangle
         this.context.translate(this.point.x + offsetX, this.point.y + offsetY);
 
-        // applying any rotation
+        // applying rotation
         this.context.rotate(this.utils.degreesToRadians(this.rotationDegrees));
 
         // applying scale
         this.context.scale(this.scale.x, this.scale.y);
 
-        // applying any flips
+        // applying flips
         this.context.scale(this.flip.flipX ? -1 : 1, this.flip.flipY ? -1 : 1);
         this.drawRect(-offsetX, -offsetY);
 
@@ -45,7 +46,7 @@ export class Rectangle extends Drawable implements iDrawable {
     drawRect(offsetX: number, offsetY: number) {
 
         // testing flip
-        // horizontal grad
+        // horizontal gradient
         // let grd = this.context.createLinearGradient(0, 0, 0, 200);
         // let grd = this.context.createLinearGradient(0, 0, 200, 0);
         // grd.addColorStop(0, 'black');

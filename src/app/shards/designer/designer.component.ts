@@ -9,6 +9,7 @@ import { Text } from './canvas/items/text';
 import { Rectangle } from './canvas/shapes/rectangle';
 import { Size } from './canvas/models/size';
 import { iDrawable } from './canvas/interfaces/iDrawable';
+import { ShiftDirection } from './canvas/enums/shift-directions';
 
 @Component({
   selector: 'designer',
@@ -29,7 +30,7 @@ export class DesignerComponent implements OnInit {
   private trackMouse: boolean = true;
 
   drawGrid: boolean = true;
-  gridCellSize: number = 20;
+  gridSpacing: number = 20;
 
   selectedShape: iDrawable;
   isDragging: boolean = true;
@@ -47,6 +48,8 @@ export class DesignerComponent implements OnInit {
 
     this.utils = new Utils();
     this.registerEvents();
+    this.fitToContainer(this.context.canvas);
+
     this.paint();
   }
 
@@ -74,6 +77,11 @@ export class DesignerComponent implements OnInit {
     this.canvasRef.nativeElement.onkeydown = (e) => {
       this.onKeyDown(e);
     };
+
+    window.onresize = () => {
+      this.fitToContainer(this.context.canvas);
+    };
+
   }
 
   paint() {
@@ -81,19 +89,20 @@ export class DesignerComponent implements OnInit {
 
     this.context.lineWidth = 5;
     if (this.drawGrid) {
-      let gp = new Point(0, 0);
-      let ds = new Size(this.context.canvas.width, this.context.canvas.height);
+      let point = new Point(0, 0);
+      let size = new Size(this.context.canvas.width, this.context.canvas.height);
 
-      let grid = new Grid(this.context, gp, ds, this.gridCellSize, '#252525', 3);
+      let grid = new Grid(this.context, point, size, this.gridSpacing);
+      grid.color = '#222';
       grid.draw();
     }
 
     if (this.trackMouse) {
       let ds = new Size(this.context.canvas.width, this.context.canvas.height);
       let lines = new CrossLines(this.context, this.pointerLocation, ds);
+      lines.color = '#555';
       lines.draw();
     }
-
 
     this.tools.forEach(tool => {
       tool.shapes.forEach(shape => {
@@ -102,6 +111,23 @@ export class DesignerComponent implements OnInit {
     });
 
     requestAnimationFrame(() => this.paint());
+  }
+
+  // resize() {
+  //   this.context.canvas.width = 0;
+  //   this.context.canvas.height = 0;
+
+  //   this.context.canvas.width = this.context.canvas.parentElement.offsetWidth - 5;
+  //   this.context.canvas.height = this.context.canvas.parentElement.offsetHeight - 5;
+  // }
+
+  fitToContainer(canvas) {
+    // Make it visually fill the positioned parent
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    // ...then set the internal size to match
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
   }
 
   onMouseDown(e: MouseEvent) {
@@ -168,20 +194,20 @@ export class DesignerComponent implements OnInit {
     }
   }
 
-  changeLayer(where: string) {
+  changeLayer(direction: string) {
 
-    switch (where) {
+    switch (direction) {
       case 'push':
-        this.currentTool.pushBack(this.selectedShape);
+        this.currentTool.shiftItem(this.selectedShape, ShiftDirection.PUSH);
         break;
       case 'pull':
-        this.currentTool.pullForward(this.selectedShape);
+        this.currentTool.shiftItem(this.selectedShape, ShiftDirection.PULL);
         break;
       case 'top':
-        this.currentTool.pullToTop(this.selectedShape);
+        this.currentTool.shiftItem(this.selectedShape, ShiftDirection.TOP);
         break;
       case 'bottom':
-        this.currentTool.pushToBack(this.selectedShape);
+        this.currentTool.shiftItem(this.selectedShape, ShiftDirection.BOTTOM);
         break;
     }
   }

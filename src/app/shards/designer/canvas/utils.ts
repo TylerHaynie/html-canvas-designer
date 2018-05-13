@@ -1,9 +1,10 @@
 import { Point } from './models/point';
+import { iDrawable } from './interfaces/iDrawable';
+import { ShiftDirection } from './enums/shift-directions';
 
 export class Utils {
 
     getMousePosition(context: CanvasRenderingContext2D, evt: MouseEvent): Point {
-        // abs. size of element
         // relationship bitmap vs. element for X
         // relationship bitmap vs. element for Y
         let rect = context.canvas.getBoundingClientRect(),
@@ -15,7 +16,7 @@ export class Utils {
         let mx = (evt.clientX - rect.left) * scaleX;
         let my = (evt.clientY - rect.top) * scaleY;
 
-        return new Point(mx, my);
+        return new Point(Math.floor(mx), Math.floor(my));
     }
 
     getDistance(n1: number, n2: number): number {
@@ -45,12 +46,6 @@ export class Utils {
         return new Point(rx, ry);
     }
 
-    shiftArrayItem(arr: Array<any>, fromIndex: number, toIndex: number) {
-        let item = arr[fromIndex];
-        arr.splice(fromIndex, 1);
-        arr.splice(toIndex, 0, item);
-    }
-
     drawPointWithText(context, x, y, size = 1, textEdge = 45) {
         context.textAlign = 'right';
         context.textBaseline = 'bottom';
@@ -67,5 +62,32 @@ export class Utils {
         }
 
         context.fillText(`(${x}, ${y})`, tx, ty);
+    }
+
+    shiftDrawableItem(array: iDrawable[], item: iDrawable, direction: ShiftDirection) {
+        if (array.includes(item)) {
+            let shapeIndex = array.indexOf(item);
+
+            switch (direction) {
+                case ShiftDirection.PUSH:
+                    this.shiftArrayItem(array, shapeIndex, shapeIndex - 1 < 0 ? 0 : shapeIndex - 1);
+                    break;
+                case ShiftDirection.PULL:
+                    this.shiftArrayItem(array, shapeIndex, shapeIndex + 1 > array.length - 1 ? array.length - 1 : shapeIndex + 1);
+                    break;
+                case ShiftDirection.TOP:
+                    this.shiftArrayItem(array, shapeIndex, array.length - 1);
+                    break;
+                case ShiftDirection.BOTTOM:
+                    this.shiftArrayItem(array, shapeIndex, 0);
+                    break;
+            }
+        }
+    }
+
+    shiftArrayItem(arr: Array<any>, fromIndex: number, toIndex: number) {
+        let item = arr[fromIndex];
+        arr.splice(fromIndex, 1);
+        arr.splice(toIndex, 0, item);
     }
 }

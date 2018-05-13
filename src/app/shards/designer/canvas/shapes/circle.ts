@@ -1,24 +1,23 @@
 import { iDrawable } from '../interfaces/iDrawable';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
+import { Drawable } from '../models/drawable';
 
-export class Circle implements iDrawable {
+export class Circle extends Drawable implements iDrawable {
+
+    context: CanvasRenderingContext2D;
     point: Point;
-    radius: number;
     size: Size;
-    color: string | CanvasGradient | CanvasPattern;
-    outlineColor: string | CanvasGradient | CanvasPattern;
 
-    private context: CanvasRenderingContext2D;
+    radius: number;
 
-    constructor(context: CanvasRenderingContext2D, point: Point, radius: number, size: Size,
-        color: string | CanvasGradient | CanvasPattern = '#876539', outlineColor: string | CanvasGradient | CanvasPattern = '#469383') {
+    constructor(context: CanvasRenderingContext2D, point: Point, size: Size, radius: number) {
+        super();
+
         this.context = context;
         this.point = point;
-        this.radius = radius;
         this.size = size;
-        this.color = color;
-        this.outlineColor = color;
+        this.radius = radius;
     }
 
     draw() {
@@ -33,8 +32,11 @@ export class Circle implements iDrawable {
 
     }
 
-    pointWithinBounds(p: Point) {
+    pointWithinBounds(point: Point) {
+        let withinBounds: boolean = false;
 
-        return false;
+        
+
+        return withinBounds;
     }
 }

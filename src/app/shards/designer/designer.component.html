@@ -4,7 +4,8 @@
         <button [ngClass]="{'selected': currentToolbarItem == 'draw'}" (click)="setToolbarItem('draw')">Draw</button>
     </div>
     <div class="view">
-        <canvas #c id="c" width="801" height="801"></canvas>
+        <!-- <canvas #c id="c" width="801" height="801"></canvas> -->
+        <canvas #c id="c" width="601" height="601"></canvas>
     </div>
 
     <div class="container right-side">
