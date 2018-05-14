@@ -1,33 +1,19 @@
 import { Point } from '../models/point';
 import { iDrawable } from '../interfaces/iDrawable';
 import { Size } from '../models/size';
+import { Drawable } from '../models/drawable';
+import { LineSegment } from '../models/line-segment';
 
-export class LineSegment {
-    startPoint: Point;
-    points: Point[];
-
-    private context: CanvasRenderingContext2D;
-
-    constructor(startPoint: Point) {
-        this.startPoint = startPoint;
-        this.points = [];
-    }
-
-    addPoint(point: Point) {
-        this.points.push(point);
-    }
-}
-
-export class Line {
-
+export class Line extends Drawable implements iDrawable {
     context: CanvasRenderingContext2D;
-    segments: LineSegment[] = [];
-    color: string | CanvasGradient | CanvasPattern;
-    lineWidth: number = 1;
+    point: Point;
 
-    constructor(context: CanvasRenderingContext2D, color: string | CanvasGradient | CanvasPattern) {
+    segments: LineSegment[] = [];
+
+    constructor(context: CanvasRenderingContext2D) {
+        super();
+
         this.context = context;
-        this.color = color;
     }
 
     addSegment(segment: LineSegment) {
@@ -48,5 +34,11 @@ export class Line {
         this.context.lineWidth = this.lineWidth;
         this.context.strokeStyle = this.color;
         this.context.stroke();
+    }
+
+    pointWithinBounds(point: Point) {
+        let withinBounds: boolean = false;
+
+        return withinBounds;
     }
 }

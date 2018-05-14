@@ -1,6 +1,6 @@
 import { Point } from './models/point';
 import { iDrawable } from './interfaces/iDrawable';
-import { ShiftDirection } from './enums/shift-directions';
+import { SHIFT_DIRECTION } from './enums/shift-direction';
 
 export class Utils {
 
@@ -64,21 +64,21 @@ export class Utils {
         context.fillText(`(${x}, ${y})`, tx, ty);
     }
 
-    shiftDrawableItem(array: iDrawable[], item: iDrawable, direction: ShiftDirection) {
+    shiftDrawableItem(array: iDrawable[], item: iDrawable, direction: SHIFT_DIRECTION) {
         if (array.includes(item)) {
             let shapeIndex = array.indexOf(item);
 
             switch (direction) {
-                case ShiftDirection.PUSH:
+                case SHIFT_DIRECTION.PUSH:
                     this.shiftArrayItem(array, shapeIndex, shapeIndex - 1 < 0 ? 0 : shapeIndex - 1);
                     break;
-                case ShiftDirection.PULL:
+                case SHIFT_DIRECTION.PULL:
                     this.shiftArrayItem(array, shapeIndex, shapeIndex + 1 > array.length - 1 ? array.length - 1 : shapeIndex + 1);
                     break;
-                case ShiftDirection.TOP:
+                case SHIFT_DIRECTION.TOP:
                     this.shiftArrayItem(array, shapeIndex, array.length - 1);
                     break;
-                case ShiftDirection.BOTTOM:
+                case SHIFT_DIRECTION.BOTTOM:
                     this.shiftArrayItem(array, shapeIndex, 0);
                     break;
             }

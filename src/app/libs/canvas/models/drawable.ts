@@ -1,6 +1,7 @@
 import { Scale } from './scale';
 import { Flip } from './flip';
 import { Utils } from '../utils';
+import { Size } from './size';
 
 export class Drawable {
     scale: Scale = new Scale(1, 1);
@@ -13,4 +14,5 @@ export class Drawable {
     borderAlpha: number = 1;
     drawOutline: boolean = true;
     rotationDegrees: number = 0;
+    size: Size = new Size(10, 10);
 }

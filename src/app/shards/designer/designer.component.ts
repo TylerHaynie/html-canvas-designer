@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
-import { RectangleTool } from './canvas/tools/rectangle-tool';
-import { Utils } from './canvas/utils';
-import { iTool } from './canvas/interfaces/itool';
-import { Point } from './canvas/models/point';
-import { Grid } from './canvas/items/grid';
-import { CrossLines } from './canvas/items/cross-lines';
-import { Text } from './canvas/items/text';
-import { Rectangle } from './canvas/shapes/rectangle';
-import { Size } from './canvas/models/size';
-import { iDrawable } from './canvas/interfaces/iDrawable';
-import { ShiftDirection } from './canvas/enums/shift-directions';
+import { RectangleTool } from '../../libs/canvas/tools/rectangle-tool';
+import { Utils } from '../../libs/canvas/utils';
+import { iTool } from '../../libs/canvas/interfaces/itool';
+import { Point } from '../../libs/canvas/models/point';
+import { Grid } from '../../libs/canvas/items/grid';
+import { CrossLines } from '../../libs/canvas/items/cross-lines';
+import { Text } from '../../libs/canvas/items/text';
+import { Rectangle } from '../../libs/canvas/shapes/rectangle';
+import { Size } from '../../libs/canvas/models/size';
+import { iDrawable } from '../../libs/canvas/interfaces/iDrawable';
+import { SHIFT_DIRECTION } from '../../libs/canvas/enums/shift-direction';
 
 @Component({
   selector: 'designer',
@@ -18,7 +18,6 @@ import { ShiftDirection } from './canvas/enums/shift-directions';
 })
 export class DesignerComponent implements OnInit {
   @ViewChild('c') canvasRef: ElementRef;
-  @Input() frameRate = 60;
 
   private utils: Utils;
   private context: CanvasRenderingContext2D;
@@ -182,7 +181,6 @@ export class DesignerComponent implements OnInit {
   }
 
   setTool(id: string) {
-
     switch (id) {
       case 'rectangle':
         this.currentTool = new RectangleTool();
@@ -194,22 +192,8 @@ export class DesignerComponent implements OnInit {
     }
   }
 
-  changeLayer(direction: string) {
-
-    switch (direction) {
-      case 'push':
-        this.currentTool.shiftItem(this.selectedShape, ShiftDirection.PUSH);
-        break;
-      case 'pull':
-        this.currentTool.shiftItem(this.selectedShape, ShiftDirection.PULL);
-        break;
-      case 'top':
-        this.currentTool.shiftItem(this.selectedShape, ShiftDirection.TOP);
-        break;
-      case 'bottom':
-        this.currentTool.shiftItem(this.selectedShape, ShiftDirection.BOTTOM);
-        break;
-    }
+  changeLayer(direction: SHIFT_DIRECTION) {
+    this.currentTool.shiftItem(this.selectedShape, direction);
   }
 
   setToolbarItem(id: string) {

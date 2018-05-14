@@ -1,8 +1,9 @@
-import { LineSegment, Line } from '../items/line-segment';
+import { Line } from '../items/line';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
 import { Drawable } from '../models/drawable';
 import { iDrawable } from '../interfaces/iDrawable';
+import { LineSegment } from '../models/line-segment';
 
 export class CrossLines extends Drawable implements iDrawable {
 
@@ -25,7 +26,8 @@ export class CrossLines extends Drawable implements iDrawable {
     }
 
     draw() {
-        let line = new Line(this.context, this.color);
+        let line = new Line(this.context);
+        line.color = this.color;
 
         // horizontal line
         let x1 = new LineSegment(new Point(0, this.point.y));
@@ -72,8 +74,6 @@ export class CrossLines extends Drawable implements iDrawable {
 
     pointWithinBounds(point: Point) {
         let withinBounds: boolean = false;
-
-
 
         return withinBounds;
     }

@@ -1,8 +1,9 @@
-import { LineSegment, Line } from '../items/line-segment';
+import { Line } from '../items/line';
 import { iDrawable } from '../interfaces/iDrawable';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
 import { Drawable } from '../models/drawable';
+import { LineSegment } from '../models/line-segment';
 
 export class Grid extends Drawable implements iDrawable {
 
@@ -22,7 +23,8 @@ export class Grid extends Drawable implements iDrawable {
     }
 
     draw() {
-        let line = new Line(this.context, this.color);
+        let line = new Line(this.context);
+        line.color = this.color;
 
         // verticle lines
         // start at 0.5 so the lines take up 1 whole pixel and not 2 halves
