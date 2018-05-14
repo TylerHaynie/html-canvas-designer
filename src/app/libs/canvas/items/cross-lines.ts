@@ -1,4 +1,4 @@
-import { Line } from '../items/line';
+import { Line } from '../shapes/line';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
 import { Drawable } from '../models/drawable';

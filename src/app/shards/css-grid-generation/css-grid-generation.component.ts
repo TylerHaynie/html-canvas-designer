@@ -1,19 +1,18 @@
 import { Component, OnInit, AfterViewInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'shard-01',
-  templateUrl: './shard-01.component.html',
-  styleUrls: ['./shard-01.component.css'],
+  selector: 'css-grid-gen',
+  templateUrl: './css-grid-generation.component.html',
+  styleUrls: ['./css-grid-generation.component.css'],
   encapsulation: ViewEncapsulation.None // fix for dynamically created html and styling issue
 })
-export class Shard01Component implements OnInit, AfterViewInit {
-  generators = 4;
-  pageColumns = 2;
+export class CssGridGenerationComponent implements OnInit, AfterViewInit {
+  generators = 25;
+  pageColumns = 5;
   countSpanAsCell = false;
   autoFlow = 'row';
-  boxesPerCell = 50;
-  maxColumns = 5;
-
+  boxesPerCell = 25;
+  maxColumns = 4;
 
   ngOnInit(): void {
 

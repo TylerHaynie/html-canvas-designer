@@ -5,7 +5,7 @@ import { Point } from '../models/point';
 import { Size } from '../models/size';
 import { iDrawable } from '../interfaces/iDrawable';
 import { SHIFT_DIRECTION } from '../enums/shift-direction';
-import { Line } from '../items/line';
+import { Line } from '../shapes/line';
 import { LineSegment } from '../models/line-segment';
 
 export class RectangleTool implements iTool {

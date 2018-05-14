@@ -4,13 +4,13 @@ import {FormsModule} from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
-import { Shard01Component } from './shards/shard-01/shard-01.component';
+import { CssGridGenerationComponent } from './shards/css-grid-generation/css-grid-generation.component';
 import { DesignerComponent } from './shards/designer/designer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    Shard01Component,
+    CssGridGenerationComponent,
     DesignerComponent
   ],
   imports: [
