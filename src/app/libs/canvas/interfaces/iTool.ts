@@ -1,6 +1,7 @@
 import { Point } from '../models/point';
 import { iDrawable } from './iDrawable';
 import { SHIFT_DIRECTION } from '../enums/shift-direction';
+import { Drawable } from '../models/drawable';
 
 export interface iTool {
     name: string;

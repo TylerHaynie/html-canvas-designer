@@ -6,12 +6,14 @@ import {FormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CssGridGenerationComponent } from './shards/css-grid-generation/css-grid-generation.component';
 import { DesignerComponent } from './shards/designer/designer.component';
+import { ImageMarkerComponent } from './shards/image-marker/image-marker.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CssGridGenerationComponent,
-    DesignerComponent
+    DesignerComponent,
+    ImageMarkerComponent
   ],
   imports: [
     BrowserModule,

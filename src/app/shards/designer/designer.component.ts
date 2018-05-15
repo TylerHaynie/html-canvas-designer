@@ -10,6 +10,8 @@ import { Rectangle } from '../../libs/canvas/shapes/rectangle';
 import { Size } from '../../libs/canvas/models/size';
 import { iDrawable } from '../../libs/canvas/interfaces/iDrawable';
 import { SHIFT_DIRECTION } from '../../libs/canvas/enums/shift-direction';
+import { MouseManagerInstance } from '../../libs/canvas/managers/mouse-manager';
+import { Drawable } from '../../libs/canvas/models/drawable';
 
 @Component({
   selector: 'designer',
@@ -36,9 +38,7 @@ export class DesignerComponent implements OnInit {
   dragOffsetX: number;
   dragOffsetY: number;
 
-  constructor() {
-
-  }
+  constructor() { }
 
   ngOnInit() {
     this.context = (this.canvasRef.nativeElement as HTMLCanvasElement).getContext('2d');
@@ -159,6 +159,7 @@ export class DesignerComponent implements OnInit {
   }
 
   onMouseMove(e: MouseEvent) {
+
     this.pointerLocation = this.utils.getMousePosition(this.context, e);
 
     if (this.selectedShape && this.isDragging) {

@@ -7,6 +7,7 @@ import { iDrawable } from '../interfaces/iDrawable';
 import { SHIFT_DIRECTION } from '../enums/shift-direction';
 import { Line } from '../shapes/line';
 import { LineSegment } from '../models/line-segment';
+import { Drawable } from '../models/drawable';
 
 export class RectangleTool implements iTool {
     name = 'Rectangle';

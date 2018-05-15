@@ -1,0 +1,11 @@
+label{
+    color: white;
+}
+
+canvas {
+    background: #222;
+}
+
+.view{
+    border: 1px solid rgb(93, 216, 233);
+}

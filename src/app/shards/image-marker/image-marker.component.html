@@ -1,0 +1,23 @@
+<div class="wrapper">
+  <div class="view">
+    <canvas #c id="c" width="600" height="600"></canvas>
+  </div>
+  <div class="tools">
+    <div>
+        <input type="file" (change)="loadImage($event)" />
+    </div>
+    <div>
+      <button (click)="toggleMarking()">Mark Image</button>
+      <div *ngIf="markingImage">
+        <label>Edit Mode:
+          <input type="checkbox" [(ngModel)]="editMode">
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <button disabled (click)="toggleMarking()">Save Markings</button>
+    </div>
+
+  </div>
+</div>
