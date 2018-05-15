@@ -5,7 +5,7 @@ import { iTool } from '../../libs/canvas/interfaces/itool';
 import { Point } from '../../libs/canvas/models/point';
 import { Grid } from '../../libs/canvas/items/grid';
 import { CrossLines } from '../../libs/canvas/items/cross-lines';
-import { Text } from '../../libs/canvas/items/text';
+import { Text } from '../../libs/canvas/shapes/text';
 import { Rectangle } from '../../libs/canvas/shapes/rectangle';
 import { Size } from '../../libs/canvas/models/size';
 import { iDrawable } from '../../libs/canvas/interfaces/iDrawable';

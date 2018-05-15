@@ -1,6 +1,8 @@
 import { Point } from './models/point';
 import { iDrawable } from './interfaces/iDrawable';
 import { SHIFT_DIRECTION } from './enums/shift-direction';
+import { Scale } from './models/scale';
+import { SCALE_DIRECTION } from './enums/scale-direction';
 
 export class Utils {
 
@@ -89,5 +91,16 @@ export class Utils {
         let item = arr[fromIndex];
         arr.splice(fromIndex, 1);
         arr.splice(toIndex, 0, item);
+    }
+
+    applyScale(point: Point, step: number, direction: SCALE_DIRECTION): Scale {
+        let scaleChange = new Scale(step / 100, step / 100);
+
+        switch (direction) {
+            case SCALE_DIRECTION.UP:
+                return new Scale(point.x + scaleChange.x, point.y + scaleChange.y);
+            case SCALE_DIRECTION.DOWN:
+                return new Scale(point.x - scaleChange.x, point.y - scaleChange.y);
+        }
     }
 }

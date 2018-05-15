@@ -3,7 +3,7 @@ import { Circle } from '../../../libs/canvas/shapes/circle';
 import { Scale } from '../../../libs/canvas/models/scale';
 import { Drawable } from '../../../libs/canvas/models/drawable';
 import { MarkerBase } from './marker-base';
-import { Text } from '../../../libs/canvas/items/text';
+import { Text } from '../../../libs/canvas/shapes/text';
 
 export class Marker {
     point: Point;
@@ -13,6 +13,7 @@ export class Marker {
 
     private id: number;
     private context: CanvasRenderingContext2D;
+    private scaledPoint: Point;
 
     private radius: number = 15;
 
@@ -30,12 +31,12 @@ export class Marker {
     }
 
     constructor(context: CanvasRenderingContext2D, id: number, features: string[], point: Point, text: string) {
-
         this.context = context;
         this.id = id;
         this.features = features;
         this.point = point;
         this.text = text;
+        this.scaledPoint = this.point;
 
         this.textobject = new Text(this.context, new Point(this.point.x / 2, this.point.y / 2), this.text);
         this.circle = new Circle(this.context, this.point, this.radius);
@@ -43,13 +44,13 @@ export class Marker {
 
     draw() {
         // update text
-        this.textobject.point = this.point;
+        this.textobject.point = this.scaledPoint;
         this.textobject.color = '#000';
         this.textobject.outlineColor = '#000';
         this.textobject.fontSize = 25;
 
         // update circle
-        this.circle.point = this.point;
+        this.circle.point = this.scaledPoint;
         this.circle.radius = this.textobject.textWidth + this.padding;
 
         this.circle.draw();
@@ -65,14 +66,27 @@ export class Marker {
         }
     }
 
-    highlight() {
+    setposition(point: Point, parentScale?: Scale) {
+        this.point = point;
+        if (parentScale) {
+            this.changeParentScale(parentScale);
+        }
+    }
+
+    changeParentScale(scale: Scale) {
+        this.scaledPoint = new Point(this.point.x * scale.x, this.point.y * scale.y);
+    }
+
+    private highlight() {
         // TODO: Draw features list on hover
         this.circle.outlineColor = this.highlightOutlineColor;
         this.circle.color = this.highlightFillColor;
     }
 
-    leave() {
+    private leave() {
         this.circle.outlineColor = this.outlineColor;
         this.circle.color = this.fillColor;
     }
+
+
 }

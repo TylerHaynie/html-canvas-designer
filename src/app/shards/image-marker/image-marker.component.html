@@ -4,7 +4,7 @@
   </div>
   <div class="tools">
     <div>
-        <input type="file" (change)="loadImage($event)" />
+      <input type="file" (change)="loadImage($event)" />
     </div>
     <div>
       <button (click)="toggleMarking()">Mark Image</button>
@@ -13,6 +13,12 @@
           <input type="checkbox" [(ngModel)]="editMode">
         </label>
       </div>
+    </div>
+
+    <div *ngIf="imageLoaded">
+      <button (click)="zoom('up')">Zoom In</button>
+      <button (click)="zoom('down')">Zoom Out</button>
+      <label for="">{{canvasImage.zoomPercentage}}%</label>
     </div>
 
     <div>

@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Utils } from '../../libs/canvas/utils';
 import { Marker } from './models/marker';
 import { Point } from './models/point';
+import { CanvasImage } from '../../libs/canvas/shapes/canvas-image';
+import { SCALE_DIRECTION } from '../../libs/canvas/enums/scale-direction';
 
 @Component({
   selector: 'image-marker',
@@ -14,7 +16,7 @@ export class ImageMarkerComponent implements OnInit {
   markingImage: boolean = false;
   editMode: boolean = false;
 
-  private image = new Image;
+  private canvasImage: CanvasImage;
   private imageLoaded: boolean = false;
   private selectedMarker: Marker;
 
@@ -22,6 +24,7 @@ export class ImageMarkerComponent implements OnInit {
   private utils = new Utils();
 
   private pointerLocation: Point;
+  private pixelLocation: Point;
   private dragOffsetX: number;
   private dragOffsetY: number;
 
@@ -35,7 +38,6 @@ export class ImageMarkerComponent implements OnInit {
     this.utils = new Utils();
 
     this.registerEvents();
-
     this.draw();
   }
 
@@ -54,12 +56,12 @@ export class ImageMarkerComponent implements OnInit {
   }
 
   loadImage(event) {
-    this.image.onload = () => {
-      this.imageLoaded = true;
-    };
-
     if (event.target.files.length > 0) {
-      this.image.src = URL.createObjectURL(event.target.files[0]);
+      this.canvasImage = new CanvasImage(this.context, new Point(0, 0), URL.createObjectURL(event.target.files[0]));
+
+      this.canvasImage.image.onload = () => {
+        this.imageLoaded = true;
+      };
     }
   }
 
@@ -67,7 +69,7 @@ export class ImageMarkerComponent implements OnInit {
     this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
     if (this.imageLoaded) {
-      this.context.drawImage(this.image, 0, 0);
+      this.canvasImage.draw();
     }
 
     if (this.selectedMarker) {
@@ -75,6 +77,13 @@ export class ImageMarkerComponent implements OnInit {
     }
 
     requestAnimationFrame(() => this.draw());
+  }
+
+  zoom(zoomDirection: SCALE_DIRECTION) {
+    this.canvasImage.zoom(zoomDirection);
+
+    this.selectedMarker.changeParentScale(this.canvasImage.scale);
+    console.log(`Zoom: ${this.canvasImage.zoomPercentage}%`);
   }
 
   //#region MOUSE EVENTS
