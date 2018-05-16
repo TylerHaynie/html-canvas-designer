@@ -33,7 +33,7 @@ export class Line extends Drawable implements iDrawable {
         this.context.restore();
     }
 
-    preDraw(offsetX: number, offsetY: number) {
+    private preDraw(offsetX: number, offsetY: number) {
         // centering on the marker
         this.context.translate(this.point.x + offsetX, this.point.y + offsetY);
 
@@ -47,7 +47,7 @@ export class Line extends Drawable implements iDrawable {
         this.context.scale(this.flip.flipX ? -1 : 1, this.flip.flipY ? -1 : 1);
     }
 
-    drawLine(offsetX: number, offsetY: number) {
+    private drawLine(offsetX: number, offsetY: number) {
 
         this.context.beginPath();
 

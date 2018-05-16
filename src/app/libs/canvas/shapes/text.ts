@@ -57,7 +57,16 @@ export class Text extends Drawable implements iDrawable {
     }
 
     public get textWidth(): number {
-        return this.context.measureText(this.text).width;
+        this.context.font = `${this.fontSize}px ${this.fontFamily}`;
+
+        // might need this for IE browser support
+        // let totalWidth: number = 0;
+        // for (let x = 0; x < this.text.length; ++x) {
+        //     totalWidth += Math.round(this.context.measureText(this.text[x]).width);
+        // }
+
+        let totalWidth = this.context.measureText(this.text).width;
+        return totalWidth;
     }
 
     draw(): void {
@@ -68,10 +77,10 @@ export class Text extends Drawable implements iDrawable {
         this.drawText(-center.x, -center.y);
 
         this.context.setTransform(1, 0, 0, 1, 0, 0);
-        this.context.restore();
+
     }
 
-    preDraw(offsetX: number, offsetY: number) {
+    private preDraw(offsetX: number, offsetY: number) {
         // centering on the marker
         this.context.translate(this.point.x + offsetX, this.point.y + offsetY);
 
@@ -85,7 +94,7 @@ export class Text extends Drawable implements iDrawable {
         this.context.scale(this.flip.flipX ? -1 : 1, this.flip.flipY ? -1 : 1);
     }
 
-    drawText(offsetX: number, offsetY: number) {
+    private drawText(offsetX: number, offsetY: number) {
         this.context.font = `${this.fontSize}px ${this.fontFamily}`;
         this.size.height = this.textHeight;
         this.size.width = this.textWidth;

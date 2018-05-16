@@ -3,6 +3,7 @@ import { Utils } from '../../libs/canvas/utils';
 import { Marker } from './models/marker';
 import { Point } from './models/point';
 import { CanvasImage } from '../../libs/canvas/shapes/canvas-image';
+import { Scale } from '../../libs/canvas/models/scale';
 import { SCALE_DIRECTION } from '../../libs/canvas/enums/scale-direction';
 
 @Component({
@@ -79,11 +80,33 @@ export class ImageMarkerComponent implements OnInit {
     requestAnimationFrame(() => this.draw());
   }
 
-  zoom(zoomDirection: SCALE_DIRECTION) {
-    this.canvasImage.zoom(zoomDirection);
+  precisionRound(number, precision) {
+    let factor = Math.pow(10, precision);
+    return Math.round(number * factor) / factor;
+  }
 
-    this.selectedMarker.changeParentScale(this.canvasImage.scale);
-    console.log(`Zoom: ${this.canvasImage.zoomPercentage}%`);
+  zoom(zoomDirection: SCALE_DIRECTION) {
+    let zoomStep: number = 10;
+
+    this.canvasImage.zoom(zoomDirection, zoomStep);
+
+    let scale = this.canvasImage.scale;
+    let origin = this.selectedMarker.originPoint;
+    let s = this.utils.applyScale(origin, zoomStep, zoomDirection);
+
+    let newP = <Point>{
+      x: s.x - (origin.x * scale.x),
+      y: s.y - (origin.y * scale.y)
+    };
+
+    this.selectedMarker.point = <Point>{
+      x: s.x - newP.x,
+      y: s.y - newP.y
+    };
+
+    console.log(`percent: (${(origin.x * scale.x)}, ${(origin.x * scale.x)})`);
+    console.log(`AppliedScale: (${s.x}, ${s.y})`);
+    console.log(`scale offset: (${s.x - newP.x}, ${s.y - newP.y})`);
   }
 
   //#region MOUSE EVENTS
@@ -92,10 +115,10 @@ export class ImageMarkerComponent implements OnInit {
     if (this.editMode) {
       if (this.selectedMarker) {
         this.selectedMarker.point = this.pointerLocation;
+        this.selectedMarker.parentScale = new Scale(1, 1);
       }
       else {
-        console.log('drawing marker');
-        this.selectedMarker = new Marker(this.context, 12345, ['String 1', 'string 2'], this.pointerLocation, '999');
+        this.selectedMarker = new Marker(this.context, 12345, ['string 1', 'string 2', 'string 3', 'string 4', 'string 5'], this.pointerLocation, '999');
       }
     }
   }

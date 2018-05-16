@@ -13,9 +13,9 @@ export class CanvasImage extends Drawable implements iDrawable {
     point: Point;
     image: HTMLImageElement = new Image;
     frame: IMAGE_FRAME = IMAGE_FRAME.FULL;
-    scaleStep: number = 10;
 
     private utils: Utils = new Utils();
+    private zoomScale: number = 10;
 
     constructor(context: CanvasRenderingContext2D, point: Point, imageSource: string) {
         super();
@@ -51,7 +51,7 @@ export class CanvasImage extends Drawable implements iDrawable {
     }
 
     public get zoomPercentage() {
-        return Math.floor(this.scale.x * (this.scaleStep / 100) * 1000);
+        return Math.floor(this.scale.x * (this.zoomScale / 100) * 1000);
     }
 
     draw(): void {
@@ -65,7 +65,7 @@ export class CanvasImage extends Drawable implements iDrawable {
         this.context.restore();
     }
 
-    preDraw(offsetX: number, offsetY: number) {
+    private preDraw(offsetX: number, offsetY: number) {
         // centering on the image
         this.context.translate(this.point.x + offsetX, this.point.y + offsetY);
 
@@ -111,8 +111,9 @@ export class CanvasImage extends Drawable implements iDrawable {
             centerShift_x, centerShift_y, this.image.width * ratio, this.image.height * ratio);
     }
 
-    zoom(scaleDirection: SCALE_DIRECTION) {
-        this.scale = this.utils.applyScale(this.scale, this.scaleStep, scaleDirection);
+    zoom(scaleDirection: SCALE_DIRECTION, zoomStep) {
+        this.zoomScale = zoomStep;
+        this.scale = this.utils.applyScale(this.scale, zoomStep, scaleDirection);
     }
 
     pointWithinBounds(checkPoint: Point): boolean {

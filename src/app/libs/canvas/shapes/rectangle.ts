@@ -55,7 +55,7 @@ export class Rectangle extends Drawable implements iDrawable {
         this.context.restore();
     }
 
-    preDraw(offsetX: number, offsetY: number) {
+    private preDraw(offsetX: number, offsetY: number) {
         // centering on the marker
         this.context.translate(this.point.x + offsetX, this.point.y + offsetY);
 
@@ -69,7 +69,7 @@ export class Rectangle extends Drawable implements iDrawable {
         this.context.scale(this.flip.flipX ? -1 : 1, this.flip.flipY ? -1 : 1);
     }
 
-    drawRect(offsetX: number, offsetY: number) {
+    private drawRect(offsetX: number, offsetY: number) {
 
         // testing flip
         // horizontal gradient
