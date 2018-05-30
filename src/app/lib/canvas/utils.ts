@@ -21,7 +21,20 @@ export class Utils {
         return new Point(Math.floor(mx), Math.floor(my));
     }
 
-    getDistance(n1: number, n2: number): number {
+    getDistanceBetweenPoints(p1: Point, p2: Point): number {
+        let xPow = Math.pow((p2.x - p1.x), 2);
+        let yPow = Math.pow((p2.y - p1.y), 2);
+        let distance = Math.sqrt(xPow + yPow);
+
+        return distance;
+    }
+
+    precisionRound(number, precision) {
+        let factor = Math.pow(10, precision);
+        return Math.round(number * factor) / factor;
+    }
+
+    getDistanceBetweenNumbers(n1: number, n2: number): number {
         return Math.abs(Math.max(n1, n2) - Math.min(n1, n2));
     }
 

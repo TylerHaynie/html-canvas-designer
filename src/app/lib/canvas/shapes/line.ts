@@ -58,18 +58,10 @@ export class Line extends Drawable implements iDrawable {
             });
         });
 
-        if (this.isSolid) {
-            this.context.fillStyle = this.color;
-            this.context.globalAlpha = this.fillAlpha;
-            this.context.fill();
-        }
-
-        if (this.drawOutline) {
-            this.context.lineWidth = this.lineWidth;
-            this.context.strokeStyle = this.outlineColor;
-            this.context.globalAlpha = this.borderAlpha;
-            this.context.stroke();
-        }
+        this.context.lineWidth = this.lineWidth;
+        this.context.strokeStyle = this.color;
+        this.context.globalAlpha = this.fillAlpha;
+        this.context.stroke();
     }
 
     pointWithinBounds(point: Point) {

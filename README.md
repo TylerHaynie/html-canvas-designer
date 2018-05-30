@@ -26,4 +26,4 @@ I started this project because I wanted to create something from scratch or as c
 I sometimes think to myself, `"Well, yeah, It does already exist, but I wonder how I would do it?"`. Then I try to figure it all out.  
 I'm a curious person and sometimes I like to see where that will take me. I'm not exactly why I chose to use a canvas, but here we are... 
 
-All the support code for the `Designer` component can be found in `src/app/libs/canvas`
+All the support code for the `Designer` component can be found in `src/app/lib/canvas`

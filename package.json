@@ -1,7 +1,7 @@
 {
-  "name": "ideas",
-  "version": "0.0.1",
-  "license": "apache-2.0",
+  "name": "html-canvas-designer",
+  "version": "0.0.2",
+  "license": "mit",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

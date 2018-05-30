@@ -1,17 +1,17 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
-import { RectangleTool } from '../../libs/canvas/tools/rectangle-tool';
-import { Utils } from '../../libs/canvas/utils';
-import { iTool } from '../../libs/canvas/interfaces/itool';
-import { Point } from '../../libs/canvas/models/point';
-import { Grid } from '../../libs/canvas/items/grid';
-import { CrossLines } from '../../libs/canvas/items/cross-lines';
-import { Text } from '../../libs/canvas/shapes/text';
-import { Rectangle } from '../../libs/canvas/shapes/rectangle';
-import { Size } from '../../libs/canvas/models/size';
-import { iDrawable } from '../../libs/canvas/interfaces/iDrawable';
-import { SHIFT_DIRECTION } from '../../libs/canvas/enums/shift-direction';
-import { MouseManagerInstance } from '../../libs/canvas/managers/mouse-manager';
-import { Drawable } from '../../libs/canvas/models/drawable';
+import { RectangleTool } from '../../lib/canvas/tools/rectangle-tool';
+import { Utils } from '../../lib/canvas/utils';
+import { iTool } from '../../lib/canvas/interfaces/itool';
+import { Point } from '../../lib/canvas/models/point';
+import { Grid } from '../../lib/canvas/items/grid';
+import { CrossLines } from '../../lib/canvas/items/cross-lines';
+import { Text } from '../../lib/canvas/shapes/text';
+import { Rectangle } from '../../lib/canvas/shapes/rectangle';
+import { Size } from '../../lib/canvas/models/size';
+import { iDrawable } from '../../lib/canvas/interfaces/iDrawable';
+import { SHIFT_DIRECTION } from '../../lib/canvas/enums/shift-direction';
+import { MouseManagerInstance } from '../../lib/canvas/managers/mouse-manager';
+import { Drawable } from '../../lib/canvas/models/drawable';
 
 @Component({
   selector: 'designer',
@@ -42,14 +42,24 @@ export class DesignerComponent implements OnInit {
 
   ngOnInit() {
     this.context = (this.canvasRef.nativeElement as HTMLCanvasElement).getContext('2d');
-    this.canvasRef.nativeElement.tabIndex = 1000; // canvas needs a tabindex so we can listen for keyboard events
-    this.canvasRef.nativeElement.style.outline = 'none'; // removing the focus outline
 
     this.utils = new Utils();
+    this.canvasInit();
     this.registerEvents();
     this.fitToContainer(this.context.canvas);
 
     this.paint();
+  }
+
+  private canvasInit() {
+    this.canvasRef.nativeElement.tabIndex = 1000; // canvas needs a tabindex so we can listen for keyboard events
+    this.canvasRef.nativeElement.style.outline = 'none'; // removing the focus outline
+
+    // for better image quality
+    this.context.mozImageSmoothingEnabled = false;  // firefox
+    this.context.imageSmoothingEnabled = false; // everything else
+
+    this.fitToContainer(this.context.canvas);
   }
 
   registerEvents() {

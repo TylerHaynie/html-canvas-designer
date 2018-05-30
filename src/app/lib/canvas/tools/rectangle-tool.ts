@@ -31,8 +31,8 @@ export class RectangleTool implements iTool {
             let p1 = this.currentPoints[0];
             let p2 = this.currentPoints[1];
 
-            let w = this.utils.getDistance(p1.x, p2.x);
-            let h = this.utils.getDistance(p1.y, p2.y);
+            let w = this.utils.getDistanceBetweenNumbers(p1.x, p2.x);
+            let h = this.utils.getDistanceBetweenNumbers(p1.y, p2.y);
             let size = new Size(w, h);
 
             let mpx = (p1.x + p2.x) / 2;

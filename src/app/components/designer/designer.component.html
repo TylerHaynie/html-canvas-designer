@@ -1,34 +1,51 @@
 <div class="wrapper">
+    <!-- Top Toolbar -->
     <div class="container toolbar">
         <button [ngClass]="{'selected': currentToolbarItem == 'select'}" (click)="setToolbarItem('select')">Select</button>
         <button [ngClass]="{'selected': currentToolbarItem == 'draw'}" (click)="setToolbarItem('draw')">Draw</button>
     </div>
+
+    <!-- canvas View -->
     <div class="view">
-        <!-- <canvas #c id="c" width="801" height="801"></canvas> -->
-        <canvas #c id="c" width="601" height="601"></canvas>
+        <canvas #c id="c"></canvas>
     </div>
 
-    <div class="container right-side">
-        <div class="toolbox">
+    <!-- Right Side -->
+    <div class="right-side">
+
+        <!-- <div class="container options">
+            <div>
+                <div>
+                    <input [(ngModel)]="trackMouse" type="checkbox" /> Track Mouse
+                </div>
+                <div>
+                    <input [(ngModel)]="drawGrid" type="checkbox" /> Show Grid
+                </div>
+            </div>
+        </div> -->
+
+        <!-- Toolbox -->
+        <div class="container toolbox">
             <div class="header">Toolbox</div>
             <div class="layer-controls">
-                <button class="min" (click)="changeLayer('pull')">Pull</button>
-                <button class="min" (click)="changeLayer('push')">Push</button>
-                <button class="min" (click)="changeLayer('top')">Top</button>
-                <button class="min" (click)="changeLayer('bottom')">Bottom</button>
+                <button (click)="changeLayer('pull')">Pull</button>
+                <button (click)="changeLayer('push')">Push</button>
+                <button (click)="changeLayer('top')">Top</button>
+                <button (click)="changeLayer('bottom')">Bottom</button>
             </div>
             <div class="seperator"></div>
-            <div>
+            <div class="tools">
                 <button [ngClass]="{'selected': currentTool && currentTool.id == 'rectangle' }" (click)="setTool('rectangle')">Rectangle</button>
             </div>
 
         </div>
-        <div class="properties" *ngIf="selectedShape">
+
+        <!-- Properties -->
+        <div class="container properties" *ngIf="selectedShape">
             <div class="header">Properties</div>
             <div class="section" *ngIf="selectedShape">
                 <div class="title">Position</div>
                 <div class="group">
-
                     <div>
                         x
                         <input type="number" [(ngModel)]="selectedShape.point.x">
@@ -39,6 +56,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="section">
                 <div class="title">Size</div>
                 <div class="group">
@@ -91,10 +109,10 @@
             <div class="section">
                 <div class="title">Design</div>
 
-                <div class="group">
+                <div class="color-group">
                     <div>Fill</div>
                     <div>
-                        <input [(ngModel)]="selectedShape.solid" type="checkbox" />
+                        <input [(ngModel)]="selectedShape.isSolid" type="checkbox" />
                     </div>
                     <div>
                         <input type="color" [(ngModel)]="selectedShape.color">
@@ -105,7 +123,9 @@
                     </div>
                 </div>
 
-                <div class="group">
+                <div class="seperator"></div>
+
+                <div class="color-group">
                     <div>Outline</div>
                     <div>
                         <input [(ngModel)]="selectedShape.drawOutline" type="checkbox" />
@@ -122,50 +142,15 @@
                     </div>
                 </div>
             </div>
-
-            <div class="section">
-                <div class="title">Physics</div>
-                <div class="group">
-                    <!-- <div>Collision
-                        <input type="checkbox" disabled/>
-                    </div> -->
-                    <div class="full-row"></div>
-                    <div>
-                        <div>
-                            Grip
-                        </div>
-                        <div>
-                            <input type="number" min="0" step="0.5" disabled>
-                        </div>
-
-                    </div>
-                    <div>
-                        <div>
-                            Solidity
-                        </div>
-                        <div>
-                            <input type="number" min="0" step="0.1" max="1" disabled>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
 
-    <div class="container statusbar">
+
+
+    </div>
+    <!-- End Right Side -->
+
+    <!-- status Bar -->
+    <div class="statusbar">
         <div class="item">({{pointerLocation.x}}, {{pointerLocation.y}})</div>
     </div>
-
-    <div class="container options">
-        <div>
-            <div>
-                <input [(ngModel)]="trackMouse" type="checkbox" /> Track Mouse
-            </div>
-            <div>
-                <input [(ngModel)]="drawGrid" type="checkbox" /> Show Grid
-            </div>
-        </div>
-    </div>
-
-
 </div>

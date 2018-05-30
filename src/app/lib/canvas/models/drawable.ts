@@ -2,7 +2,7 @@ import { Scale } from './scale';
 import { Flip } from './flip';
 import { Utils } from '../utils';
 import { Size } from './size';
-import { Point } from '../../../shards/image-marker/models/point';
+import { Point } from './point';
 
 export class Drawable {
     point: Point = new Point(0, 0);

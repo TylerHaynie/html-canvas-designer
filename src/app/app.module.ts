@@ -2,18 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 
-
 import { AppComponent } from './app.component';
-import { CssGridGenerationComponent } from './shards/css-grid-generation/css-grid-generation.component';
-import { DesignerComponent } from './shards/designer/designer.component';
-import { ImageMarkerComponent } from './shards/image-marker/image-marker.component';
+import { DesignerComponent } from './components/designer/designer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CssGridGenerationComponent,
     DesignerComponent,
-    ImageMarkerComponent
   ],
   imports: [
     BrowserModule,
