@@ -1,14 +1,10 @@
 import { Point } from '../models/point';
-import { iDrawable } from '../interfaces/iDrawable';
 import { Size } from '../models/size';
 import { Drawable } from '../models/drawable';
 import { LineSegment } from '../models/line-segment';
 import { Utils } from '../utils';
 
-export class Line extends Drawable implements iDrawable {
-    context: CanvasRenderingContext2D;
-    point: Point;
-
+export class Line extends Drawable {
     segments: LineSegment[] = [];
 
     private utils = new Utils();

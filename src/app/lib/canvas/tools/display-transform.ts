@@ -50,7 +50,7 @@ export class DisplayTransform {
 
     }
 
-    update(mouse) {
+    update(mouse: any) {
         // smooth all movement out. drag and accel control how this moves
         // acceleration
         this.dx += (this.x - this.cx) * this.accel;
@@ -151,5 +151,3 @@ export class DisplayTransform {
 
     }
 }
-
-

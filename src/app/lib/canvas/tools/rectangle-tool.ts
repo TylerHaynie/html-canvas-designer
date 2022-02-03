@@ -3,7 +3,6 @@ import { Utils } from '../utils';
 import { iTool } from '../interfaces/iTool';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
-import { iDrawable } from '../interfaces/iDrawable';
 import { SHIFT_DIRECTION } from '../enums/shift-direction';
 import { Line } from '../shapes/line';
 import { LineSegment } from '../models/line-segment';
@@ -13,8 +12,8 @@ export class RectangleTool implements iTool {
     name = 'Rectangle';
     id = 'rectangle';
 
-    shapes: iDrawable[];
-    private tempShapes: iDrawable[] = [];
+    shapes: Drawable[];
+    private tempShapes: Drawable[] = [];
 
     private utils = new Utils();
     private currentPoints: Point[] = [];
@@ -76,7 +75,7 @@ export class RectangleTool implements iTool {
         }
     }
 
-    deleteShape(shape: iDrawable) {
+    deleteShape(shape: Drawable) {
         if (this.shapes.includes(shape)) {
             let shapeIndex = this.shapes.indexOf(shape);
 
@@ -91,7 +90,7 @@ export class RectangleTool implements iTool {
         }
     }
 
-    shiftItem(selectedShape: iDrawable, direction: SHIFT_DIRECTION) {
+    shiftItem(selectedShape: Drawable, direction: SHIFT_DIRECTION) {
         this.utils.shiftDrawableItem(this.shapes, selectedShape, direction);
     }
 }

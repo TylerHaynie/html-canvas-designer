@@ -1,15 +1,10 @@
-import { iDrawable } from '../interfaces/iDrawable';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
 import { Drawable } from '../models/drawable';
 import { Utils } from '../utils';
 import { Scale } from '../models/scale';
 
-export class Circle extends Drawable implements iDrawable {
-
-    context: CanvasRenderingContext2D;
-    point: Point;
-
+export class Circle extends Drawable {
     radius: number;
     private utils: Utils = new Utils();
 

@@ -1,16 +1,10 @@
 import { Line } from '../shapes/line';
-import { iDrawable } from '../interfaces/iDrawable';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
 import { Drawable } from '../models/drawable';
 import { LineSegment } from '../models/line-segment';
 
-export class Grid extends Drawable implements iDrawable {
-
-    context: CanvasRenderingContext2D;
-    point: Point;
-    size: Size;
-
+export class Grid extends Drawable {
     spacing: number = 10;
 
     constructor(context: CanvasRenderingContext2D, point: Point, size: Size, spacing: number) {

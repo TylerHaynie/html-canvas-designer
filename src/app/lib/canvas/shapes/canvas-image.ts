@@ -1,4 +1,3 @@
-import { iDrawable } from '../interfaces/iDrawable';
 import { Point } from '../models/point';
 import { Drawable } from '../models/drawable';
 import { Size } from '../models/size';
@@ -7,10 +6,8 @@ import { IMAGE_FRAME } from '../enums/image-frame';
 import { SCALE_DIRECTION } from '../enums/scale-direction';
 import { Scale } from '../models/scale';
 
-export class CanvasImage extends Drawable implements iDrawable {
+export class CanvasImage extends Drawable {
 
-    context: CanvasRenderingContext2D;
-    point: Point;
     image: HTMLImageElement = new Image;
     frame: IMAGE_FRAME = IMAGE_FRAME.FULL;
 
@@ -111,7 +108,7 @@ export class CanvasImage extends Drawable implements iDrawable {
             centerShift_x, centerShift_y, this.image.width * ratio, this.image.height * ratio);
     }
 
-    zoom(scaleDirection: SCALE_DIRECTION, zoomStep) {
+    zoom(scaleDirection: SCALE_DIRECTION, zoomStep: number) {
         this.zoomScale = zoomStep;
         this.scale = this.utils.applyScale(this.scale, zoomStep, scaleDirection);
     }

@@ -1,8 +1,8 @@
 import { Point } from './models/point';
-import { iDrawable } from './interfaces/iDrawable';
 import { SHIFT_DIRECTION } from './enums/shift-direction';
 import { Scale } from './models/scale';
 import { SCALE_DIRECTION } from './enums/scale-direction';
+import { Drawable } from './models/drawable';
 
 export class Utils {
 
@@ -29,7 +29,7 @@ export class Utils {
         return distance;
     }
 
-    precisionRound(number, precision) {
+    precisionRound(number: number, precision: number) {
         let factor = Math.pow(10, precision);
         return Math.round(number * factor) / factor;
     }
@@ -42,7 +42,7 @@ export class Utils {
         return degrees * Math.PI / 180;
     }
 
-    findHalf(x, y) {
+    findHalf(x: number, y: number) {
         return ((x + y) / 2);
     }
 
@@ -61,7 +61,7 @@ export class Utils {
         return new Point(rx, ry);
     }
 
-    drawPointWithText(context, x, y, size = 1, textEdge = 45) {
+    drawPointWithText(context: CanvasRenderingContext2D, x: number, y: number, size = 1, textEdge = 45) {
         context.textAlign = 'right';
         context.textBaseline = 'bottom';
 
@@ -79,7 +79,7 @@ export class Utils {
         context.fillText(`(${x}, ${y})`, tx, ty);
     }
 
-    shiftDrawableItem(array: iDrawable[], item: iDrawable, direction: SHIFT_DIRECTION) {
+    shiftDrawableItem(array: Drawable[], item: Drawable, direction: SHIFT_DIRECTION) {
         if (array.includes(item)) {
             let shapeIndex = array.indexOf(item);
 

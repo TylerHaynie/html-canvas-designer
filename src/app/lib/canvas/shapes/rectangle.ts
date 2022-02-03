@@ -1,4 +1,3 @@
-import { iDrawable } from '../interfaces/iDrawable';
 import { Point } from '../models/point';
 import { Size } from '../models/size';
 import { Utils } from '../utils';
@@ -6,11 +5,7 @@ import { Scale } from '../models/scale';
 import { Flip } from '../models/flip';
 import { Drawable } from '../models/drawable';
 
-export class Rectangle extends Drawable implements iDrawable {
-    context: CanvasRenderingContext2D;
-    point: Point;
-    size: Size;
-
+export class Rectangle extends Drawable {
     private utils = new Utils();
 
     constructor(context: CanvasRenderingContext2D, point: Point, size: Size) {

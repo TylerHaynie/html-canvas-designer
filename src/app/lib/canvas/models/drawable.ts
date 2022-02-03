@@ -3,8 +3,14 @@ import { Flip } from './flip';
 import { Utils } from '../utils';
 import { Size } from './size';
 import { Point } from './point';
+import { iDrawable } from '../interfaces/iDrawable';
 
-export class Drawable {
+export abstract class Drawable implements iDrawable {
+    context: CanvasRenderingContext2D;
+
+    abstract draw(): void;
+    abstract pointWithinBounds(point: Point): boolean;
+
     point: Point = new Point(0, 0);
     scale: Scale = new Scale(1, 1);
     flip: Flip = new Flip(false, false);

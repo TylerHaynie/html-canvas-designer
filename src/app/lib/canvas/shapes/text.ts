@@ -1,20 +1,17 @@
-import { iDrawable } from '../interfaces/iDrawable';
 import { Point } from '../models/point';
 import { Drawable } from '../models/drawable';
 import { Size } from '../models/size';
 import { Utils } from '../utils';
 
-export class Text extends Drawable implements iDrawable {
+export class Text extends Drawable{
 
-    context: CanvasRenderingContext2D;
-    point: Point;
     bounds: Size;
 
     text: string;
     fontSize: number = 16;
     fontFamily: string = 'Arial';
-    alignment: string = 'center';
-    baseLine: string = 'middle';
+    alignment: "center" | "end" | "left" | "right" | "start" = 'center';
+    baseLine: "alphabetic" | "bottom" | "hanging" | "ideographic" | "middle" | "top" = 'middle';
 
     private utils: Utils = new Utils();
 

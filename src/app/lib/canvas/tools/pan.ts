@@ -37,7 +37,7 @@ export class Pan {
         // this.setupMouse(this.canvas);
     }
 
-    mouseMove(event: MouseEvent) {
+    mouseMove(event: any) {
 
         if (!this.mouse) {
             this.mouse = new MouseData();
@@ -53,7 +53,6 @@ export class Pan {
         this.mouse.shift = event.shiftKey;
         this.mouse.ctrl = event.ctrlKey;
 
-
         if (event.type === 'mousedown') {
             event.preventDefault();
             this.mouse.buttonRaw |= this.mouse.buttons[event.which - 1];
@@ -66,7 +65,7 @@ export class Pan {
             this.mouse.over = true;
         } else if (event.type === 'mousewheel') {
             event.preventDefault();
-            this.mouse.w = (<MouseWheelEvent>event).wheelDelta;
+            this.mouse.w = (<WheelEvent>event).deltaY;
         } else if (event.type === 'DOMMouseScroll') { // FF you pedantic doffus
             this.mouse.w = -event.detail;
         }
@@ -108,6 +107,3 @@ export class Pan {
         }
     }
 }
-
-
-

@@ -1,46 +1,47 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { RectangleTool } from '../../lib/canvas/tools/rectangle-tool';
 import { Utils } from '../../lib/canvas/utils';
-import { iTool } from '../../lib/canvas/interfaces/itool';
 import { Point } from '../../lib/canvas/models/point';
 import { Grid } from '../../lib/canvas/items/grid';
 import { CrossLines } from '../../lib/canvas/items/cross-lines';
 import { Text } from '../../lib/canvas/shapes/text';
 import { Rectangle } from '../../lib/canvas/shapes/rectangle';
 import { Size } from '../../lib/canvas/models/size';
-import { iDrawable } from '../../lib/canvas/interfaces/iDrawable';
 import { SHIFT_DIRECTION } from '../../lib/canvas/enums/shift-direction';
 import { MouseManagerInstance } from '../../lib/canvas/managers/mouse-manager';
 import { Drawable } from '../../lib/canvas/models/drawable';
+import { iTool } from '../../lib/canvas/interfaces/iTool';
 
 @Component({
   selector: 'designer',
   templateUrl: './designer.component.html',
   styleUrls: ['./designer.component.css']
 })
-export class DesignerComponent implements OnInit {
-  @ViewChild('c') canvasRef: ElementRef;
+export class DesignerComponent implements AfterViewInit {
+  @ViewChild('drawingCanvas') canvasRef: ElementRef<HTMLCanvasElement>;
 
-  private utils: Utils;
-  private context: CanvasRenderingContext2D;
-  private tools: iTool[] = [];
+  utils: Utils;
+  context: CanvasRenderingContext2D;
+  tools: iTool[] = [];
 
-  private currentTool: iTool;
-  private currentToolbarItem: string = 'draw';
-  private pointerLocation: Point = new Point(0, 0);
-  private trackMouse: boolean = true;
+  currentTool: iTool;
+  currentToolbarItem: string = 'draw';
+  pointerLocation: Point = new Point(0, 0);
+  trackMouse: boolean = true;
 
   drawGrid: boolean = true;
   gridSpacing: number = 20;
 
-  selectedShape: iDrawable;
+  selectedShape: Drawable;
   isDragging: boolean = true;
   dragOffsetX: number;
   dragOffsetY: number;
 
+  shiftDirections = SHIFT_DIRECTION;
+
   constructor() { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.context = (this.canvasRef.nativeElement as HTMLCanvasElement).getContext('2d');
 
     this.utils = new Utils();
@@ -56,7 +57,7 @@ export class DesignerComponent implements OnInit {
     this.canvasRef.nativeElement.style.outline = 'none'; // removing the focus outline
 
     // for better image quality
-    this.context.mozImageSmoothingEnabled = false;  // firefox
+    // this.context.mozImageSmoothingEnabled = false;  // firefox
     this.context.imageSmoothingEnabled = false; // everything else
 
     this.fitToContainer(this.context.canvas);
@@ -65,25 +66,25 @@ export class DesignerComponent implements OnInit {
   registerEvents() {
 
     // fixes a problem where double clicking causes text to get selected on the canvas
-    this.canvasRef.nativeElement.addEventListener('selectstart', function (e) {
+    this.canvasRef.nativeElement.addEventListener('selectstart', function (e: any) {
       e.preventDefault();
       return false;
     },
       false);
 
-    this.canvasRef.nativeElement.onmousedown = (e) => {
+    this.canvasRef.nativeElement.onmousedown = (e: MouseEvent) => {
       this.onMouseDown(e);
     };
 
-    this.canvasRef.nativeElement.onmouseup = (e) => {
+    this.canvasRef.nativeElement.onmouseup = (e: MouseEvent) => {
       this.onMouseUp(e);
     };
 
-    this.canvasRef.nativeElement.onmousemove = (e) => {
+    this.canvasRef.nativeElement.onmousemove = (e: MouseEvent) => {
       this.onMouseMove(e);
     };
 
-    this.canvasRef.nativeElement.onkeydown = (e) => {
+    this.canvasRef.nativeElement.onkeydown = (e: KeyboardEvent) => {
       this.onKeyDown(e);
     };
 
@@ -130,7 +131,7 @@ export class DesignerComponent implements OnInit {
   //   this.context.canvas.height = this.context.canvas.parentElement.offsetHeight - 5;
   // }
 
-  fitToContainer(canvas) {
+  fitToContainer(canvas: HTMLCanvasElement) {
     // Make it visually fill the positioned parent
     canvas.style.width = '100%';
     canvas.style.height = '100%';
@@ -203,8 +204,8 @@ export class DesignerComponent implements OnInit {
     }
   }
 
-  changeLayer(direction: SHIFT_DIRECTION) {
-    this.currentTool.shiftItem(this.selectedShape, direction);
+  changeLayer(direction: string) {
+    this.currentTool.shiftItem(this.selectedShape, (<any>SHIFT_DIRECTION)[direction]);
   }
 
   setToolbarItem(id: string) {
