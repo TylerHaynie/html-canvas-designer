@@ -204,8 +204,8 @@ export class DesignerComponent implements AfterViewInit {
     }
   }
 
-  changeLayer(direction: string) {
-    this.currentTool.shiftItem(this.selectedShape, (<any>SHIFT_DIRECTION)[direction]);
+  changeLayer(direction: any) {
+    this.currentTool.shiftItem(this.selectedShape, direction);
   }
 
   setToolbarItem(id: string) {
